@@ -1,3 +1,4 @@
+'use client'
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import Script from 'next/script'
@@ -6,6 +7,7 @@ const outfit = Outfit({ subsets: ['latin'], weight: ['700', '800', '900'], varia
 import './globals.css'
 import config from '@/vertical.config'
 import { getMeshStyle, getScrollbarColor, COLOR_MAP } from '@/lib/themeColors'
+import PageTracker from '@/components/PageTracker'
 import Navbar from '@/components/Navbar'
 import FooterExtras from '@/components/FooterExtras'
 import ChatBot from '@/components/ChatBot'
@@ -89,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <PageTracker site='questly' />
         <Navbar />
 
         <Providers>
