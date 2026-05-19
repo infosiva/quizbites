@@ -1,13 +1,15 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
+import siteConfig from '@/site.config'
 
-// QuizBot — blue theme, bottom-LEFT, live quiz assistant
+// QuizBot — blue theme, bottom-RIGHT, live quiz assistant
 const ACCENT = '#3b82f6'
 const BOT_NAME = 'QuizBot'
-const WELCOME = '⚡ Hey! I\'m QuizBot — your AI trivia companion on QuizBites. Ask me to create quiz questions, explain answers, or suggest fun topics for your next quiz night!'
+const WELCOME = siteConfig.chatbot.openingMessage
+const API_ENDPOINT = siteConfig.chatbot.apiEndpoint
 const SYSTEM_PROMPT = `You are QuizBot, the AI assistant for QuizBites — an AI-powered live quiz platform for classrooms and trivia nights.
-Help users create quizzes, explain quiz answers, suggest interesting trivia topics, and make learning fun.
+Help teachers create quizzes on any topic, explain how the platform works, and help students join sessions.
 Keep responses short, engaging, and informative. Use a friendly, energetic tone.`
 
 interface Message {
@@ -33,6 +35,17 @@ export default function ChatBot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
+  // Auto-show after 30 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpen(o => {
+        if (!o) return true
+        return o
+      })
+    }, 30000)
+    return () => clearTimeout(timer)
+  }, [])
+
   const send = useCallback(async () => {
     const text = input.trim()
     if (!text || loading) return
@@ -44,7 +57,7 @@ export default function ChatBot() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next, systemPrompt: SYSTEM_PROMPT }),
@@ -84,12 +97,12 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Floating button — bottom-LEFT */}
+      {/* Floating button — bottom-RIGHT */}
       <button
         onClick={() => setOpen(o => !o)}
         aria-label={open ? 'Close chat' : 'Open QuizBot'}
         style={{
-          position: 'fixed', bottom: 24, left: 24, zIndex: 9999,
+          position: 'fixed', bottom: 24, right: 24, zIndex: 9999,
           width: 52, height: 52, borderRadius: '50%',
           background: ACCENT, border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -110,10 +123,10 @@ export default function ChatBot() {
         )}
       </button>
 
-      {/* Chat panel — bottom-LEFT */}
+      {/* Chat panel — bottom-RIGHT */}
       {open && (
         <div style={{
-          position: 'fixed', bottom: 88, left: 24, zIndex: 9998,
+          position: 'fixed', bottom: 88, right: 24, zIndex: 9998,
           width: 360, height: 500, borderRadius: 16,
           background: '#080c14', border: '1px solid rgba(59,130,246,0.25)',
           boxShadow: '0 8px 40px rgba(0,0,0,0.7), 0 0 40px rgba(59,130,246,0.10)',

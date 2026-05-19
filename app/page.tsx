@@ -9,6 +9,7 @@ import { theme, btn } from '@/lib/theme'
 import { Spotlight } from '@/components/aceternity/spotlight'
 import { CardContainer, CardBody, CardItem } from '@/components/aceternity/card-3d'
 import GuidedTour, { type TourStep } from '@/components/GuidedTour'
+import siteConfig from '@/site.config'
 
 const QUESTLY_TOUR: TourStep[] = [
   { target: '#hero-host-btn', title: 'Host a quiz free', icon: '🎯', body: 'Pick any topic — AI writes all questions with explanations instantly. No prep needed.', placement: 'bottom' },
@@ -44,27 +45,6 @@ const PRO_FEATURES = [
   { icon: <Sparkles size={20} />, title: 'Custom AI Quiz Gen', desc: 'Generate quizzes from your own lesson notes or curriculum' },
   { icon: <BarChart2 size={20} />, title: 'Analytics Dashboard', desc: 'Track student performance, identify gaps, monitor progress' },
   { icon: <Download size={20} />, title: 'Export Results', desc: 'Download scores as CSV or PDF for your records' },
-]
-
-const TESTIMONIALS = [
-  {
-    name: 'Ms. Rachel Torres',
-    role: 'Year 9 Science Teacher, London',
-    quote: 'My students actually beg to do revision now. QuizBites has transformed how I do formative assessment.',
-    stars: 5,
-  },
-  {
-    name: 'Mr. David Kim',
-    role: 'Maths Department Head, Manchester',
-    quote: "Took me 30 seconds to set up my first quiz. The AI explanations after each question are genuinely brilliant.",
-    stars: 5,
-  },
-  {
-    name: 'Mrs. Priya Nair',
-    role: 'Primary School Teacher, Birmingham',
-    quote: 'Students on phones for LEARNING instead of distracting — my head teacher was amazed. Love the live leaderboard.',
-    stars: 5,
-  },
 ]
 
 // ── Animated countdown timer ──────────────────────────────────
@@ -273,6 +253,12 @@ export default function HomePage() {
       // Clean up URL
       window.history.replaceState({}, '', '/')
     }
+    // VPS pageview tracking — fire and forget
+    fetch('http://31.97.56.148:3099/api/stats', {
+      method: 'POST',
+      body: JSON.stringify({ site: 'quizbites.app', event: 'pageview' }),
+      headers: { 'Content-Type': 'application/json' },
+    }).catch(() => {})
   }, [])
 
   async function handleUpgrade() {
@@ -313,7 +299,7 @@ export default function HomePage() {
               LIVE
             </div>
             <div className="flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-300">
-              <Zap size={10} /> Used in 500+ classrooms
+              <Zap size={10} /> AI-powered quiz builder
             </div>
             <div className="flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold text-cyan-300">
               <Star size={10} fill="currentColor" /> Better than Kahoot
@@ -390,10 +376,10 @@ export default function HomePage() {
         style={{ background: 'rgba(37,99,235,0.05)' }}>
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { n: '500+',  l: 'Classrooms' },
-            { n: '< 30s', l: 'Quiz created' },
-            { n: '100%',  l: 'AI-explained' },
-            { n: 'Free',  l: 'No card needed' },
+            { n: siteConfig.stats.teachers, l: 'Teachers using QuizBites' },
+            { n: siteConfig.stats.quizzesCreated, l: 'Quizzes created' },
+            { n: siteConfig.stats.studentsReached, l: 'Students reached' },
+            { n: 'Free', l: 'No card needed' },
           ].map(s => (
             <div key={s.l}>
               <div className="text-2xl font-extrabold"
@@ -498,28 +484,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────── */}
+      {/* ── WHY QUIZBITES ────────────────────────────────────── */}
       <section className="py-20 px-6 max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-2">Loved by teachers everywhere</h2>
-          <p className="text-white/40 text-sm">Real feedback from real classrooms — not marketing copy</p>
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-2">Why teachers choose QuizBites</h2>
+          <p className="text-white/40 text-sm">Built for the classroom — not just another trivia app</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map(t => (
-            <div key={t.name}
-              className="p-6 rounded-2xl border border-white/[0.07]"
-              style={{ background: 'rgba(255,255,255,0.03)' }}>
-              <div className="flex mb-3">
-                {Array.from({ length: t.stars }).map((_, i) => (
-                  <Star key={i} size={14} fill="#f59e0b" className="text-amber-400" />
-                ))}
-              </div>
-              <p className="text-white/70 text-sm leading-relaxed mb-4 italic">&ldquo;{t.quote}&rdquo;</p>
-              <div>
-                <div className="font-bold text-white text-sm">{t.name}</div>
-                <div className="text-white/40 text-xs mt-0.5">{t.role}</div>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[
+            { icon: '⚡', title: 'Zero prep time', desc: 'AI writes all questions with explanations. Pick a topic and you\'re done — no question writing ever.' },
+            { icon: '📱', title: 'Any device, any browser', desc: 'Students join from phones, tablets, or laptops. No app download, no account, just a 6-character code.' },
+            { icon: '🏆', title: 'Real-time leaderboard', desc: 'Scores update live as students answer. Friendly competition keeps the whole class engaged.' },
+            { icon: '📊', title: 'Instant analytics', desc: 'See which questions tripped up your class and identify learning gaps immediately after each session.' },
+            { icon: '🎯', title: 'AI explanations', desc: 'Every answer includes an AI-written explanation — students learn from wrong answers, not just right ones.' },
+            { icon: '♾️', title: 'Every subject, any topic', desc: 'Maths, science, history, coding — or anything custom. AI handles the content, you handle the class.' },
+          ].map(f => (
+            <div key={f.title} className="p-5 rounded-2xl border border-white/[0.07]"
+              style={{ background: 'rgba(37,99,235,0.05)' }}>
+              <div className="text-2xl mb-3">{f.icon}</div>
+              <h3 className="font-bold text-white text-sm mb-1.5">{f.title}</h3>
+              <p className="text-white/45 text-xs leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

@@ -1,4 +1,3 @@
-'use client'
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import Script from 'next/script'
@@ -15,38 +14,41 @@ import Providers from '@/components/Providers'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import CookieConsent from "../components/CookieConsent";
 import Footer from "../components/Footer";
+import StickyFooterCTA from "../components/StickyFooterCTA";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
+import siteConfig from '@/site.config'
+
 export const metadata: Metadata = {
-  title:       config.metaTitle,
-  description: config.metaDescription,
-  keywords:    config.keywords,
-  metadataBase: new URL(`https://${config.domain}`),
+  title:       siteConfig.seo.title,
+  description: siteConfig.seo.description,
+  keywords:    siteConfig.seo.keywords,
+  metadataBase: new URL(siteConfig.url),
   alternates: {
-    canonical: '/',
+    canonical: siteConfig.url,
   },
   openGraph: {
-    title:       config.metaTitle,
-    description: config.metaDescription,
-    url:         `https://${config.domain}`,
-    siteName:    config.name,
+    title:       siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    url:         siteConfig.url,
+    siteName:    siteConfig.name,
     type:        'website',
     locale:      'en_US',
     images: [
       {
-        url:   `/opengraph-image`,
+        url:   `${siteConfig.url}/opengraph-image`,
         width:  1200,
         height: 630,
-        alt:    `${config.name} — ${config.tagline}`,
+        alt:    `${siteConfig.name} — ${siteConfig.tagline}`,
       },
     ],
   },
   twitter: {
     card:        'summary_large_image',
-    title:       config.metaTitle,
-    description: config.metaDescription,
-    images:      [`https://${config.domain}/opengraph-image`],
+    title:       siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    images:      [`${siteConfig.url}/opengraph-image`],
   },
   robots: {
     index:  true,
@@ -85,6 +87,44 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mesh-blob3" style={{ position: 'absolute', bottom: '-15%', left: '40%', width: 450, height: 450, borderRadius: '50%', background: `radial-gradient(circle, ${colors.primary}15 0%, transparent 65%)`, filter: 'blur(40px)' }} />
         </div>
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "SoftwareApplication",
+                "name": siteConfig.name,
+                "url": siteConfig.url,
+                "description": siteConfig.description,
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "Web",
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+              },
+              { "@type": "WebSite", "name": siteConfig.name, "url": siteConfig.url },
+              {
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Is QuizBites free for teachers?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — QuizBites is free to use. Teachers can host live AI-generated quizzes with no account required." }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How do students join a QuizBites session?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Students join by entering the 6-character session code at quizbites.app/join — no app download or account needed, works on any device." }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How does QuizBites generate quiz questions?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "QuizBites uses AI (Groq, Gemini, and Anthropic models) to generate topic-specific questions with multiple-choice options and explanations in seconds." }
+                  }
+                ]
+              }
+            ]
+          })}}
+        />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
@@ -106,6 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <FooterExtras />
         <Footer siteName={config.name} />
       <CookieConsent />
+        <StickyFooterCTA />
         <Script async src="http://31.97.56.148:3100/script.js" data-website-id="9d57747b-6a7d-46a7-97de-b083896131b0" strategy="afterInteractive" />
       </body>
     </html>
