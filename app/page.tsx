@@ -276,7 +276,7 @@ export default function HomePage() {
     <div className="overflow-hidden">
 
       {/* ── HERO — Live Classroom Energy ─────────────────────── */}
-      <section className="relative px-6 pt-14 pb-20 text-center overflow-hidden min-h-[88vh] flex flex-col justify-center">
+      <section className="relative px-6 pt-14 pb-10 text-center overflow-hidden min-h-[88vh] flex flex-col justify-center">
         {/* Aceternity Spotlight */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20 pointer-events-none" fill="#2563eb" />
 
@@ -308,8 +308,8 @@ export default function HomePage() {
 
           {/* Headline */}
           <h1 className="font-black leading-[0.90] tracking-tight mb-6">
-            <span className="block text-white text-4xl sm:text-5xl md:text-7xl mb-2">Run live quizzes your</span>
-            <span className="block text-4xl sm:text-5xl md:text-7xl"
+            <span className="block text-white text-4xl sm:text-5xl md:text-4xl md:text-5xl mb-2">Run live quizzes your</span>
+            <span className="block text-4xl sm:text-5xl md:text-4xl md:text-5xl"
               style={{ background: 'linear-gradient(135deg, #2563eb 0%, #38bdf8 50%, #67e8f9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               students actually enjoy
             </span>
@@ -393,7 +393,7 @@ export default function HomePage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section id="how-it-works" className="py-20 px-6 max-w-5xl mx-auto">
+      <section id="how-it-works" className="py-10 px-6 max-w-5xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-2xl md:text-3xl font-black text-white mb-2">From idea to live quiz in 3 steps</h2>
           <p className="text-white/40 text-sm">No prep time. No question writing. Just play.</p>
@@ -420,7 +420,7 @@ export default function HomePage() {
       </section>
 
       {/* ── PRO UPGRADE — WHY GO PRO ─────────────────────────── */}
-      <section className="py-20 px-6 border-y border-white/[0.06]"
+      <section className="py-10 px-6 border-y border-white/[0.06]"
         style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.04), rgba(14,165,233,0.04))' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -485,7 +485,7 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY QUIZBITES ────────────────────────────────────── */}
-      <section className="py-20 px-6 max-w-5xl mx-auto">
+      <section className="py-10 px-6 max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-white mb-2">Why teachers choose QuizBites</h2>
           <p className="text-white/40 text-sm">Built for the classroom — not just another trivia app</p>
@@ -539,7 +539,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FINAL CTA ────────────────────────────────────────── */}
-      <section className="py-20 px-6 border-t border-white/[0.06]"
+      <section className="py-10 px-6 border-t border-white/[0.06]"
         style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.05), rgba(14,165,233,0.03))' }}>
         <div className="max-w-2xl mx-auto text-center">
           <div className="text-5xl mb-4">🏆</div>
