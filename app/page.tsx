@@ -230,6 +230,8 @@ function ClassroomMockup() {
 // ── Main page ─────────────────────────────────────────────────
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
   const subjects = isAiTool(config) ? config.subjects : []
   const [isPro, setIsPro] = useState(false)
   const [upgrading, setUpgrading] = useState(false)
