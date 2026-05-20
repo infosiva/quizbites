@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import Stripe from 'stripe'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
