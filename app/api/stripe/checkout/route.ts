@@ -1,10 +1,8 @@
 export const dynamic = 'force-dynamic'
 import Stripe from 'stripe'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-04-22.dahlia' as any })
-
 export async function POST(req: Request) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-04-22.dahlia' as any }) // eslint-disable-line @typescript-eslint/no-explicit-any
   const origin = req.headers.get('origin') || 'https://quizbites.app'
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
