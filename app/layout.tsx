@@ -15,32 +15,34 @@ import FeedbackWidget from '@/components/FeedbackWidget'
 import CookieConsent from "../components/CookieConsent";
 import Footer from "../components/Footer";
 import StickyFooterCTA from "../components/StickyFooterCTA";
+import SchemaOrg from '@/components/SchemaOrg'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
 import siteConfig from '@/site.config'
 
+const SITE_URL = `https://${siteConfig.domain}`
+
 export const metadata: Metadata = {
   title:       siteConfig.seo.title,
   description: siteConfig.seo.description,
-  keywords:    siteConfig.seo.keywords,
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(SITE_URL),
   alternates: {
-    canonical: siteConfig.url,
+    canonical: SITE_URL,
   },
   openGraph: {
     title:       siteConfig.seo.title,
     description: siteConfig.seo.description,
-    url:         siteConfig.url,
-    siteName:    siteConfig.name,
+    url:         SITE_URL,
+    siteName:    siteConfig.siteName,
     type:        'website',
     locale:      'en_US',
     images: [
       {
-        url:   `${siteConfig.url}/og.png`,
+        url:   `${SITE_URL}/og.png`,
         width:  1200,
         height: 630,
-        alt:    `${siteConfig.name} — ${siteConfig.tagline}`,
+        alt:    `${siteConfig.siteName} — ${siteConfig.subheadline}`,
       },
     ],
   },
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
     card:        'summary_large_image',
     title:       siteConfig.seo.title,
     description: siteConfig.seo.description,
-    images:      [`${siteConfig.url}/opengraph-image`],
+    images:      [`${SITE_URL}/opengraph-image`],
   },
   robots: {
     index:  true,
@@ -87,44 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mesh-blob3" style={{ position: 'absolute', bottom: '-15%', left: '40%', width: 450, height: 450, borderRadius: '50%', background: `radial-gradient(circle, ${colors.primary}15 0%, transparent 65%)`, filter: 'blur(40px)' }} />
         </div>
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "SoftwareApplication",
-                "name": siteConfig.name,
-                "url": siteConfig.url,
-                "description": siteConfig.description,
-                "applicationCategory": "EducationalApplication",
-                "operatingSystem": "Web",
-                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-              },
-              { "@type": "WebSite", "name": siteConfig.name, "url": siteConfig.url },
-              {
-                "@type": "FAQPage",
-                "mainEntity": [
-                  {
-                    "@type": "Question",
-                    "name": "Is QuizBites free for teachers?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — QuizBites is free to use. Teachers can host live AI-generated quizzes with no account required." }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "How do students join a QuizBites session?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Students join by entering the 6-character session code at quizbites.app/join — no app download or account needed, works on any device." }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "How does QuizBites generate quiz questions?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "QuizBites uses AI (Groq, Gemini, and Anthropic models) to generate topic-specific questions with multiple-choice options and explanations in seconds." }
-                  }
-                ]
-              }
-            ]
-          })}}
-        />
+        <SchemaOrg />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"

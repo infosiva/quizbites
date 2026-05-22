@@ -6,8 +6,8 @@ import siteConfig from '@/site.config'
 // QuizBot — blue theme, bottom-RIGHT, live quiz assistant
 const ACCENT = '#3b82f6'
 const BOT_NAME = 'QuizBot'
-const WELCOME = siteConfig.chatbot.openingMessage
-const API_ENDPOINT = siteConfig.chatbot.apiEndpoint
+const WELCOME = siteConfig.chatbot.welcomeMessage
+const API_ENDPOINT = '/api/chat'
 const SYSTEM_PROMPT = `You are QuizBot, the AI assistant for QuizBites — an AI-powered live quiz platform for classrooms and trivia nights.
 Help teachers create quizzes on any topic, explain how the platform works, and help students join sessions.
 Keep responses short, engaging, and informative. Use a friendly, energetic tone.`

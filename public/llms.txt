@@ -1,0 +1,22 @@
+# QuizBites
+> Live AI quiz tool for classrooms. Teachers create interactive quizzes in seconds — students join instantly, no app required.
+
+## What this site does
+QuizBites lets teachers create and run live interactive quizzes for their classroom using AI. Generate quiz questions on any curriculum topic in seconds, launch a live session, and students join on their phones or tablets instantly — no download, no account needed. Real-time leaderboard keeps engagement high.
+
+## Who it's for
+Primary and secondary school teachers, university lecturers, tutors, and anyone running group learning sessions. Works for any subject and any class size.
+
+## Key features
+- AI quiz generation on any curriculum topic
+- Live classroom sessions with real-time leaderboard
+- Students join via QR code or link — no app required
+- Teacher dashboard with per-student results
+- Export results as CSV or PDF
+- Works on any device — phone, tablet, laptop
+
+## Pricing
+Free tier available — up to 30 students per session. Pro plan from $6.99/month for unlimited class sizes.
+
+## Contact
+https://quizbites.app
