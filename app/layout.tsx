@@ -12,6 +12,7 @@ import FooterExtras from '@/components/FooterExtras'
 import ChatBot from '@/components/ChatBot'
 import Providers from '@/components/Providers'
 import FeedbackWidget from '@/components/FeedbackWidget'
+import BackToTop from '@/components/BackToTop'
 import CookieConsent from "../components/CookieConsent";
 import Footer from "../components/Footer";
 import StickyFooterCTA from "../components/StickyFooterCTA";
@@ -107,6 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ChatBot />
         <FeedbackWidget siteName="QuizBites" accentColor="#3b82f6" accentColor2="#6366f1" />
+        <BackToTop accentColor="#3b82f6" />
 
         <FooterExtras />
         <Footer siteName={config.name} />
