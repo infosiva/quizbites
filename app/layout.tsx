@@ -114,7 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer siteName={config.name} />
       <CookieConsent />
         <StickyFooterCTA />
-        <Script async src="http://31.97.56.148:3100/script.js" data-website-id="9d57747b-6a7d-46a7-97de-b083896131b0" strategy="afterInteractive" />
+        <Script defer data-domain="quizbites.app" src="https://plausible.io/js/script.js" strategy="afterInteractive" />
       </body>
     </html>
   )
