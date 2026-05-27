@@ -1,186 +1,208 @@
 'use client'
-// components/HeroDemo.tsx — animated 3-question rapid-fire quiz preview
-// Shows the core QuizBites UX: countdown timer, question, 4 options, streak.
-import { useState, useEffect, useCallback } from 'react'
+// components/HeroDemo.tsx — animated "type topic → quiz appears" teacher demo
+// Shows the core QuizBites UX: teacher types a topic, AI generates quiz questions.
+import { useState, useEffect } from 'react'
 
-const DEMO_QUESTIONS = [
+const DEMO_TOPIC = 'World War II'
+
+const GENERATED_QUESTIONS = [
   {
-    q: 'What is the powerhouse of the cell?',
-    options: ['Nucleus', 'Mitochondria', 'Ribosome', 'Golgi body'],
-    correct: 1,
-    subject: '🔬 Biology',
+    q: 'Which event triggered the start of World War II?',
+    options: ["Germany's invasion of Poland", "Attack on Pearl Harbor", "Fall of France", "The Treaty of Versailles"],
+    correct: 0,
   },
   {
-    q: 'Which planet has the most moons?',
-    options: ['Jupiter', 'Saturn', 'Uranus', 'Neptune'],
-    correct: 1,
-    subject: '🔭 Astronomy',
+    q: 'Who led Nazi Germany during World War II?',
+    options: ['Heinrich Himmler', 'Joseph Stalin', 'Adolf Hitler', 'Benito Mussolini'],
+    correct: 2,
   },
   {
-    q: 'What does CSS stand for?',
-    options: ['Computer Style Syntax', 'Cascading Style Sheets', 'Creative Style System', 'Coded Style Script'],
+    q: 'What does D-Day refer to?',
+    options: ['The bombing of Hiroshima', 'Allied invasion of Normandy', 'Germany\'s surrender', 'Battle of Stalingrad'],
     correct: 1,
-    subject: '💻 Coding',
   },
 ]
 
-const TIMER_SEC = 8
+type Phase = 'typing' | 'generating' | 'questions'
 
 export default function HeroDemo() {
-  const [qIdx,      setQIdx]      = useState(0)
-  const [selected,  setSelected]  = useState<number | null>(null)
-  const [timeLeft,  setTimeLeft]  = useState(TIMER_SEC)
-  const [streak,    setStreak]    = useState(0)
-  const [score,     setScore]     = useState(0)
-  const [phase,     setPhase]     = useState<'question' | 'result' | 'done'>('question')
+  const [phase, setPhase]           = useState<Phase>('typing')
+  const [typedText, setTypedText]   = useState('')
+  const [visibleQs, setVisibleQs]   = useState(0)
+  const [selected, setSelected]     = useState<Record<number, number>>({})
 
-  const current = DEMO_QUESTIONS[qIdx]
-
-  const advance = useCallback((answered: number | null) => {
-    const correct = answered === current.correct
-    if (correct) { setStreak(s => s + 1); setScore(s => s + 1) }
-    else setStreak(0)
-
-    setPhase('result')
-    setTimeout(() => {
-      if (qIdx + 1 < DEMO_QUESTIONS.length) {
-        setQIdx(i => i + 1)
-        setSelected(null)
-        setTimeLeft(TIMER_SEC)
-        setPhase('question')
-      } else {
-        setPhase('done')
-      }
-    }, 1400)
-  }, [qIdx, current.correct])
-
-  // Countdown timer
+  // Typing animation
   useEffect(() => {
-    if (phase !== 'question') return
-    if (timeLeft <= 0) { advance(null); return }
-    const t = setTimeout(() => setTimeLeft(n => n - 1), 1000)
+    if (phase !== 'typing') return
+    if (typedText.length < DEMO_TOPIC.length) {
+      const t = setTimeout(() => setTypedText(DEMO_TOPIC.slice(0, typedText.length + 1)), 80)
+      return () => clearTimeout(t)
+    }
+    // Done typing — pause then generate
+    const t = setTimeout(() => setPhase('generating'), 600)
     return () => clearTimeout(t)
-  }, [timeLeft, phase, advance])
+  }, [phase, typedText])
 
-  // Auto-restart after done
+  // Generating phase
   useEffect(() => {
-    if (phase !== 'done') return
-    const t = setTimeout(() => {
-      setQIdx(0); setSelected(null); setTimeLeft(TIMER_SEC)
-      setStreak(0); setScore(0); setPhase('question')
-    }, 2800)
+    if (phase !== 'generating') return
+    const t = setTimeout(() => { setVisibleQs(0); setPhase('questions') }, 1400)
     return () => clearTimeout(t)
   }, [phase])
 
-  const timerPct = (timeLeft / TIMER_SEC) * 100
-  const timerColor = timeLeft <= 3 ? '#ef4444' : timeLeft <= 5 ? '#f59e0b' : '#3b82f6'
+  // Stagger questions in
+  useEffect(() => {
+    if (phase !== 'questions') return
+    if (visibleQs < GENERATED_QUESTIONS.length) {
+      const t = setTimeout(() => setVisibleQs(n => n + 1), 350)
+      return () => clearTimeout(t)
+    }
+  }, [phase, visibleQs])
+
+  // Auto-restart cycle
+  useEffect(() => {
+    if (phase !== 'questions' || visibleQs < GENERATED_QUESTIONS.length) return
+    const t = setTimeout(() => {
+      setTypedText('')
+      setSelected({})
+      setVisibleQs(0)
+      setPhase('typing')
+    }, 7000)
+    return () => clearTimeout(t)
+  }, [phase, visibleQs])
 
   return (
     <div
       className="rounded-2xl border border-blue-500/20 p-5 w-full max-w-md mx-auto"
-      style={{ background: 'rgba(7,13,26,0.90)', backdropFilter: 'blur(20px)' }}
+      style={{ background: 'rgba(5, 10, 24, 0.92)', backdropFilter: 'blur(20px)' }}
     >
-      {/* Header row */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[10px] font-black uppercase tracking-widest text-blue-400/70">
-          {current.subject}
-        </span>
         <div className="flex items-center gap-2">
-          {streak > 0 && (
-            <span className="flex items-center gap-1 text-[11px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full">
-              🔥 {streak}
-            </span>
-          )}
-          <span className="text-[11px] text-white/30 font-mono">
-            {qIdx + 1}/{DEMO_QUESTIONS.length}
+          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-[11px] font-bold uppercase tracking-widest text-blue-400/80">
+            QuizBites AI
           </span>
+        </div>
+        <span className="text-[10px] text-white/25 font-medium">
+          {phase === 'questions' ? `${GENERATED_QUESTIONS.length} questions ready` : 'Generating…'}
+        </span>
+      </div>
+
+      {/* Topic input row */}
+      <div className="mb-4">
+        <div className="text-[10px] text-white/35 uppercase tracking-widest mb-1.5 font-medium">
+          Topic or chapter
+        </div>
+        <div
+          className="flex items-center gap-2 rounded-xl border px-3.5 py-2.5 transition-colors duration-300"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            borderColor: phase === 'typing' ? 'rgba(59,130,246,0.5)' : 'rgba(59,130,246,0.2)',
+            boxShadow: phase === 'typing' ? '0 0 0 3px rgba(59,130,246,0.10)' : 'none',
+          }}
+        >
+          <span className="text-sm text-white font-medium flex-1 min-h-[20px]">
+            {typedText}
+            {phase === 'typing' && (
+              <span
+                className="inline-block w-0.5 h-4 bg-blue-400 ml-0.5 align-middle"
+                style={{ animation: 'blink 1s step-end infinite' }}
+              />
+            )}
+          </span>
+          <button
+            className="shrink-0 rounded-lg px-3 py-1 text-[11px] font-bold text-white transition-all"
+            style={{ background: 'rgba(37,99,235,0.9)' }}
+          >
+            Generate
+          </button>
         </div>
       </div>
 
-      {phase === 'done' ? (
-        /* Done screen */
-        <div className="text-center py-6">
-          <div className="text-4xl mb-3">
-            {score === DEMO_QUESTIONS.length ? '🏆' : score >= 2 ? '🎯' : '💪'}
-          </div>
-          <div className="text-white font-black text-lg mb-1">
-            {score}/{DEMO_QUESTIONS.length} correct
-          </div>
-          <div className="text-white/40 text-xs">
-            {score === DEMO_QUESTIONS.length ? 'Perfect score! Try another topic.' : 'Nice work — keep your streak going!'}
-          </div>
-          <div className="mt-4 h-1 rounded-full bg-white/10 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-700"
-              style={{ width: `${(score / DEMO_QUESTIONS.length) * 100}%` }}
-            />
-          </div>
+      {/* Generating spinner */}
+      {phase === 'generating' && (
+        <div className="flex flex-col items-center justify-center py-7 gap-3">
+          <div
+            className="w-8 h-8 rounded-full border-2 border-blue-500/30 border-t-blue-500"
+            style={{ animation: 'spin 0.8s linear infinite' }}
+          />
+          <span className="text-[12px] text-white/40 font-medium">Creating quiz questions…</span>
         </div>
-      ) : (
-        <>
-          {/* Timer bar */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] text-white/30 uppercase tracking-widest">Time</span>
-              <span
-                className="text-sm font-black tabular-nums transition-colors duration-300"
-                style={{ color: timerColor }}
-              >
-                {timeLeft}s
-              </span>
-            </div>
-            <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-1000 linear"
-                style={{ width: `${timerPct}%`, background: timerColor }}
-              />
-            </div>
-          </div>
-
-          {/* Question */}
-          <p className="text-white font-bold text-sm leading-snug mb-4 min-h-[40px]">
-            {current.q}
-          </p>
-
-          {/* Options */}
-          <div className="grid grid-cols-1 gap-2">
-            {current.options.map((opt, i) => {
-              let state: 'idle' | 'correct' | 'wrong' | 'reveal' = 'idle'
-              if (phase === 'result') {
-                if (i === current.correct) state = 'correct'
-                else if (i === selected) state = 'wrong'
-                else state = 'reveal'
-              }
-              return (
-                <button
-                  key={i}
-                  disabled={phase === 'result'}
-                  onClick={() => { setSelected(i); advance(i) }}
-                  className={[
-                    'w-full text-left px-3.5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 border',
-                    state === 'correct'
-                      ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300'
-                      : state === 'wrong'
-                        ? 'bg-red-500/20 border-red-500/50 text-red-300'
-                        : state === 'reveal'
-                          ? 'bg-white/[0.02] border-white/[0.06] text-white/30'
-                          : 'bg-white/[0.04] border-white/[0.08] text-white/80 hover:bg-blue-500/10 hover:border-blue-500/40 hover:text-white cursor-pointer',
-                  ].join(' ')}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-white/[0.07] flex items-center justify-center text-[10px] font-black text-white/40 shrink-0">
-                      {['A','B','C','D'][i]}
-                    </span>
-                    {opt}
-                    {state === 'correct' && ' ✓'}
-                    {state === 'wrong'   && ' ✗'}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
-        </>
       )}
+
+      {/* Generated questions */}
+      {phase === 'questions' && (
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+              Quiz ready
+            </span>
+            <span className="text-[10px] text-white/25">No student accounts needed</span>
+          </div>
+          {GENERATED_QUESTIONS.slice(0, visibleQs).map((q, qi) => (
+            <div
+              key={qi}
+              className="rounded-xl border border-white/[0.07] p-3 transition-all duration-300"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                opacity: 1,
+                transform: 'translateY(0)',
+              }}
+            >
+              <p className="text-white/80 text-[12px] font-semibold leading-snug mb-2">
+                <span className="text-blue-400/60 font-bold mr-1.5">Q{qi + 1}.</span>
+                {q.q}
+              </p>
+              <div className="grid grid-cols-2 gap-1">
+                {q.options.map((opt, oi) => {
+                  const isSelected = selected[qi] === oi
+                  const isCorrect  = oi === q.correct
+                  const showResult = selected[qi] !== undefined
+                  return (
+                    <button
+                      key={oi}
+                      onClick={() => setSelected(s => ({ ...s, [qi]: oi }))}
+                      className={[
+                        'text-left rounded-lg px-2 py-1.5 text-[11px] font-medium transition-all duration-150 border',
+                        showResult && isCorrect
+                          ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                          : showResult && isSelected && !isCorrect
+                            ? 'bg-red-500/15 border-red-500/30 text-red-300'
+                            : isSelected
+                              ? 'bg-blue-500/20 border-blue-500/40 text-blue-200'
+                              : 'bg-white/[0.03] border-white/[0.06] text-white/55 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-white/80',
+                      ].join(' ')}
+                    >
+                      {['A','B','C','D'][oi]}. {opt}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Share bar — shown when all questions visible */}
+      {phase === 'questions' && visibleQs === GENERATED_QUESTIONS.length && (
+        <div
+          className="mt-3 flex items-center gap-2 rounded-xl border border-blue-500/20 px-3 py-2"
+          style={{ background: 'rgba(37,99,235,0.07)' }}
+        >
+          <div className="flex-1 text-[11px] text-white/40 font-mono truncate">
+            quizbites.app/q/ww2-demo
+          </div>
+          <button className="text-[11px] font-bold text-blue-400 hover:text-blue-300 transition-colors shrink-0">
+            Copy link
+          </button>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   )
 }

@@ -14,12 +14,12 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="text-xl leading-none">📚</span>
+          <span className="text-xl leading-none">📝</span>
           <div>
             <span className="font-bold text-lg text-white leading-none block tracking-tight">
               Quiz<span className="text-blue-400">Bites</span>
             </span>
-            <span className="text-[10px] font-medium text-blue-400/60 leading-none block uppercase tracking-widest">Bite-sized quizzes</span>
+            <span className="text-[10px] font-medium text-blue-400/60 leading-none block uppercase tracking-widest">AI quiz maker for teachers</span>
           </div>
         </Link>
 

@@ -9,7 +9,7 @@ export default function HowItWorksSection() {
   const itemVars      = useMotionVariants(FADE_UP)
 
   return (
-    <section id="how-it-works" className="py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-white/[0.05]">
+    <section id="how-it-works" className="py-8 px-4 sm:px-6 max-w-5xl mx-auto border-t border-white/[0.05]">
       <motion.div
         variants={containerVars as Parameters<typeof motion.div>[0]['variants']}
         initial="hidden"
@@ -17,8 +17,12 @@ export default function HowItWorksSection() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <motion.div variants={itemVars as Parameters<typeof motion.div>[0]['variants']} className="text-center mb-10">
-          <h2 className="text-2xl font-black text-white mb-2">How it works</h2>
-          <p className="text-white/40 text-sm">Three steps to your daily quiz habit</p>
+          <h2 className="text-2xl font-black text-white mb-2">Ready in 3 steps</h2>
+          <p className="text-white/40 text-sm">From blank page to live classroom quiz in under a minute</p>
+          <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-400 text-[11px] font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+            No student accounts or downloads required
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">

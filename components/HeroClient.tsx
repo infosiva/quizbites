@@ -6,7 +6,7 @@ import { siteConfig } from '@/site.config'
 import { ShimmerButton } from '@/components/magicui/shimmer-button'
 import { theme, btn } from '@/lib/theme'
 import Link from 'next/link'
-import { BookOpen } from 'lucide-react'
+import { Play } from 'lucide-react'
 
 export default function HeroClient() {
   const variants  = useMotionVariants(STAGGER_CONTAINER(0.06))
@@ -75,7 +75,7 @@ export default function HeroClient() {
         </motion.div>
         <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
           <Link href={siteConfig.ctaSecondary.href} className={btn.secondary + ' text-sm px-8 py-4 font-bold min-h-[52px] flex items-center gap-2'}>
-            <BookOpen size={15} /> {siteConfig.ctaSecondary.text}
+            <Play size={15} /> {siteConfig.ctaSecondary.text}
           </Link>
         </motion.div>
       </motion.div>
