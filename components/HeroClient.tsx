@@ -3,12 +3,13 @@
 import { motion } from 'framer-motion'
 import { STAGGER_CONTAINER, FADE_UP, SPRING_CINEMATIC, BUTTON_PRESS, useMotionVariants } from '@/lib/motion'
 import { siteConfig } from '@/site.config'
+import type { ContentOverrides } from '@/lib/content'
 import { ShimmerButton } from '@/components/magicui/shimmer-button'
 import { theme, btn } from '@/lib/theme'
 import Link from 'next/link'
 import { Play } from 'lucide-react'
 
-export default function HeroClient() {
+export default function HeroClient({ overrides = {} }: { overrides?: ContentOverrides }) {
   const variants  = useMotionVariants(STAGGER_CONTAINER(0.06))
   const childVars = useMotionVariants(FADE_UP)
 
@@ -32,7 +33,10 @@ export default function HeroClient() {
         variants={childVars as Parameters<typeof motion.h1>[0]['variants']}
         className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight"
       >
-        {siteConfig.headline.map((line, i) => (
+        {(overrides.headline
+          ? [overrides.headline]
+          : siteConfig.headline
+        ).map((line, i) => (
           <span key={i} className="block">
             {i === 1
               ? <span className={theme.gradientText} style={{ filter: 'drop-shadow(0 0 24px rgba(37,99,235,0.45))' }}>{line}</span>
@@ -47,7 +51,7 @@ export default function HeroClient() {
         variants={childVars as Parameters<typeof motion.p>[0]['variants']}
         className="text-white/55 text-base leading-relaxed max-w-md"
       >
-        {siteConfig.subheadline}
+        {overrides.subheadline ?? siteConfig.subheadline}
       </motion.p>
 
       {/* Free tier pills */}
@@ -69,7 +73,7 @@ export default function HeroClient() {
         <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
           <Link href={siteConfig.ctaPrimary.href}>
             <ShimmerButton background="rgba(37, 99, 235, 1)" shimmerColor="#bfdbfe" className="px-8 py-4 text-base font-bold min-h-[52px]">
-              {siteConfig.ctaPrimary.text}
+              {overrides.cta ?? siteConfig.ctaPrimary.text}
             </ShimmerButton>
           </Link>
         </motion.div>
