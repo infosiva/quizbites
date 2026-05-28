@@ -1,7 +1,8 @@
 // app/page.tsx — SERVER COMPONENT (no 'use client')
 // Assembles sections in order from siteConfig.layout.sectionOrder.
-// Crawlers (GPTBot, ClaudeBot, PerplexityBot) read plain HTML from every section.
+// Section visibility driven by Edge Config flags — toggle in Hub, zero code deploy.
 import { siteConfig } from '@/site.config'
+import { getSiteFlags } from '@/lib/flags'
 import { Suspense } from 'react'
 import HeroSection       from '@/components/HeroSection'
 import MarqueeBar        from '@/components/MarqueeBar'
@@ -21,9 +22,16 @@ const SECTION_MAP: Record<string, React.ReactNode> = {
   finalCta:    <FinalCTA />,
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const flags = await getSiteFlags('quizbites')
   const { sectionOrder, hideSections } = siteConfig.layout
-  const visible = sectionOrder.filter(id => !hideSections.includes(id))
+
+  const ecHide: string[] = []
+  if (!flags.pricing) ecHide.push('pricing')
+  if (flags.waitlist) ecHide.push('pricing', 'finalCta')
+
+  const allHidden = [...new Set([...hideSections, ...ecHide])]
+  const visible = sectionOrder.filter(id => !allHidden.includes(id))
 
   return (
     <div className="flex flex-col">
