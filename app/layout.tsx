@@ -5,11 +5,12 @@ import Script from 'next/script'
 const outfit = Outfit({ subsets: ['latin'], weight: ['700', '800', '900'], variable: '--font-display' })
 import './globals.css'
 import config from '@/vertical.config'
-import { getMeshStyle, getScrollbarColor, COLOR_MAP } from '@/lib/themeColors'
+import { getScrollbarColor, COLOR_MAP } from '@/lib/themeColors'
 import PageTracker from '@/components/PageTracker'
 import Navbar from '@/components/Navbar'
 import FooterExtras from '@/components/FooterExtras'
 import ChatBot from '@/components/ChatBot'
+import { getSiteFlags } from '@/lib/flags'
 import Providers from '@/components/Providers'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import BackToTop from '@/components/BackToTop'
@@ -61,10 +62,10 @@ export const metadata: Metadata = {
 }
 
 // Derive CSS custom properties from vertical theme at build time
-const colors   = COLOR_MAP[config.themeColor] ?? COLOR_MAP['violet']
-const meshStyle = getMeshStyle(config.themeColor)
+const colors = COLOR_MAP[config.themeColor] ?? COLOR_MAP['violet']
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const flags = await getSiteFlags('quizbites')
   return (
     <html
       lang="en"
@@ -81,14 +82,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-white`}
         style={{ background: colors.base, fontFamily: 'var(--font-body, system-ui)' }}
       >
-        {/* Dynamic mesh gradient bg — changes per vertical */}
-        <div style={meshStyle} />
-        {/* Animated blob overlays */}
-        <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
-          <div className="mesh-blob1" style={{ position: 'absolute', top: '-20%', left: '-10%', width: 600, height: 600, borderRadius: '50%', background: `radial-gradient(circle, ${colors.primary}22 0%, transparent 65%)`, filter: 'blur(40px)' }} />
-          <div className="mesh-blob2" style={{ position: 'absolute', top: '30%', right: '-15%', width: 500, height: 500, borderRadius: '50%', background: `radial-gradient(circle, ${colors.secondary}18 0%, transparent 65%)`, filter: 'blur(40px)' }} />
-          <div className="mesh-blob3" style={{ position: 'absolute', bottom: '-15%', left: '40%', width: 450, height: 450, borderRadius: '50%', background: `radial-gradient(circle, ${colors.primary}15 0%, transparent 65%)`, filter: 'blur(40px)' }} />
-        </div>
+        {/* Aurora background blobs */}
+        <div className="aurora aurora-primary" aria-hidden />
+        <div className="aurora aurora-secondary" aria-hidden />
+        <div className="aurora aurora-third" aria-hidden />
+        {/* Film grain overlay */}
+        <div className="grain" aria-hidden />
 
         <SchemaOrg />
         <Script
@@ -106,7 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
         </Providers>
 
-        <ChatBot />
+        {flags.chatbot && <ChatBot />}
         <FeedbackWidget siteName="QuizBites" accentColor="#3b82f6" accentColor2="#6366f1" />
         <BackToTop accentColor="#3b82f6" />
 
@@ -115,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <CookieConsent />
         <StickyFooterCTA />
         <Script defer data-domain="quizbites.app" src="https://plausible.io/js/script.js" strategy="afterInteractive" />
+        <Script defer data-site="quizbites.app" src="http://31.97.56.148:3098/t.js" strategy="afterInteractive" />
       </body>
     </html>
   )
