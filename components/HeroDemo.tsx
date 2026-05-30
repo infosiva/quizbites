@@ -2,6 +2,7 @@
 // components/HeroDemo.tsx — animated "type topic → quiz appears" teacher demo
 // Shows the core QuizBites UX: teacher types a topic, AI generates quiz questions.
 import { useState, useEffect } from 'react'
+import MasteryBar from '@/components/MasteryBar'
 
 const DEMO_TOPIC = 'World War II'
 
@@ -197,6 +198,19 @@ export default function HeroDemo() {
           <button className="text-[11px] font-bold text-blue-400 hover:text-blue-300 transition-colors shrink-0">
             Copy link
           </button>
+        </div>
+      )}
+
+      {/* Mastery progress — shown in questions phase to demonstrate spaced-rep value */}
+      {phase === 'questions' && visibleQs >= 2 && (
+        <div
+          className="mt-3 rounded-xl border border-white/[0.07] px-3 py-2"
+          style={{ background: 'rgba(255,255,255,0.02)' }}
+        >
+          <p className="text-[10px] text-white/30 uppercase tracking-widest font-semibold mb-1">
+            Your mastery
+          </p>
+          <MasteryBar topic={DEMO_TOPIC} total={10} />
         </div>
       )}
 

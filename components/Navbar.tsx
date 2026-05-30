@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import { siteConfig } from '@/site.config'
+import StreakBar from '@/components/StreakBar'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -30,6 +31,11 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+        </div>
+
+        {/* Streak pill — client-only, reads localStorage */}
+        <div className="hidden md:block">
+          <StreakBar />
         </div>
 
         {/* Desktop CTAs */}
