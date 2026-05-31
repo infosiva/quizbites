@@ -11,9 +11,15 @@ import FeaturesGrid      from '@/components/FeaturesGrid'
 import PricingSection    from '@/components/PricingSection'
 import FAQSection        from '@/components/FAQSection'
 import FinalCTA          from '@/components/FinalCTA'
+import StreakBar         from '@/components/StreakBar'
+import MasteryBar        from '@/components/MasteryBar'
+import EmptyStateDemo    from '@/components/EmptyStateDemo'
 
 const SECTION_MAP: Record<string, React.ReactNode> = {
   hero:        <HeroSection />,
+  streakBar:   <Suspense fallback={null}><StreakBar /></Suspense>,
+  masteryBar:  <Suspense fallback={null}><MasteryBar topic="General Knowledge" /></Suspense>,
+  emptyDemo:   <Suspense fallback={null}><EmptyStateDemo /></Suspense>,
   marquee:     <MarqueeBar />,
   howItWorks:  <HowItWorksSection />,
   features:    <Suspense fallback={<div className="h-96" />}><FeaturesGrid /></Suspense>,
