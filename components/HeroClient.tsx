@@ -22,7 +22,14 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
     >
       {/* Badge */}
       <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
-        <span className={`badge-glow inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${theme.badge} text-xs font-bold uppercase tracking-widest`}>
+        <span
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest"
+          style={{
+            background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.09)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+            color: 'rgba(147,197,253,0.82)',
+          }}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
           {siteConfig.heroBadge}
         </span>
@@ -31,7 +38,8 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
       {/* Headline — each line staggered */}
       <motion.h1
         variants={childVars as Parameters<typeof motion.h1>[0]['variants']}
-        className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight"
+        className="font-black tracking-tight"
+        style={{ fontSize: 'clamp(2.5rem, 5.5vw, 3.75rem)', lineHeight: 0.97 }}
       >
         {(overrides.headline
           ? [overrides.headline]
@@ -39,7 +47,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         ).map((line, i) => (
           <span key={i} className="block">
             {i === 1
-              ? <span className={theme.gradientText} style={{ filter: 'drop-shadow(0 0 24px rgba(37,99,235,0.45))' }}>{line}</span>
+              ? <span className={theme.gradientText} style={{ filter: 'drop-shadow(0 0 36px rgba(37,99,235,0.55))' }}>{line}</span>
               : <span className="text-white">{line}</span>
             }
           </span>
