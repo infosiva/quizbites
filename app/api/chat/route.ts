@@ -1,3 +1,4 @@
+import { reportToTaskFlow } from '@/lib/reportToTaskFlow'
 import Groq from 'groq-sdk'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -39,6 +40,7 @@ SAFETY (non-negotiable): This platform is used by children, teenagers, and class
       stream: true,
     })
 
+    void reportToTaskFlow({ project: 'quizbites', agentName: 'ChatBot', status: 'completed', message: 'Chat message processed' })
     const readable = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder()
