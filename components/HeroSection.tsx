@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { siteConfig } from '@/site.config'
 import { getContentOverrides } from '@/lib/content'
 import HeroClient from './HeroClient'
-import HeroDemo from './HeroDemo'
+import QuickQuiz from './QuickQuiz'
 
 export default async function HeroSection() {
   const isSplit    = siteConfig.layout.heroVariant === 'split'
@@ -23,14 +23,10 @@ export default async function HeroSection() {
           <HeroClient overrides={overrides} />
         </div>
 
-        {/* RIGHT: quiz demo — below copy on mobile, alongside on desktop */}
+        {/* RIGHT: inline playable quiz — zero auth, core action on landing */}
         {!isCentered && (
           <div className="order-2 lg:pl-4 mt-6 lg:mt-0">
-            <Suspense fallback={
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] h-56 animate-pulse" />
-            }>
-              <HeroDemo />
-            </Suspense>
+            <QuickQuiz />
           </div>
         )}
       </div>
