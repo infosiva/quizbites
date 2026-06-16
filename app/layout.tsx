@@ -79,15 +79,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       } as React.CSSProperties}
       suppressHydrationWarning
     >
-      <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-white`}
-        style={{ background: colors.base, fontFamily: 'var(--font-body, system-ui)' }}
+      <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-slate-900`}
+        style={{ background: '#f0f9ff', fontFamily: 'var(--font-body, system-ui)' }}
       >
-        {/* Aurora background blobs */}
-        <div className="aurora aurora-primary" aria-hidden />
-        <div className="aurora aurora-secondary" aria-hidden />
-        <div className="aurora aurora-third" aria-hidden />
-        {/* Film grain overlay */}
-        <div className="grain" aria-hidden />
 
         <SchemaOrg />
         <Script

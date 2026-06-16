@@ -25,9 +25,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         <span
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest"
           style={{
-            background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.09)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
-            color: 'rgba(147,197,253,0.82)',
+            background: 'rgba(2,132,199,0.07)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(2,132,199,0.18)', boxShadow: 'inset 0 1px 0 rgba(2,132,199,0.1)',
+            color: '#0369a1',
           }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
@@ -47,8 +47,8 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         ).map((line, i) => (
           <span key={i} className="block">
             {i === 1
-              ? <span className={theme.gradientText} style={{ filter: 'drop-shadow(0 0 36px rgba(37,99,235,0.55))' }}>{line}</span>
-              : <span className="text-white">{line}</span>
+              ? <span className={theme.gradientText} style={{ filter: 'drop-shadow(0 0 20px rgba(2,132,199,0.3))' }}>{line}</span>
+              : <span className="text-slate-900">{line}</span>
             }
           </span>
         ))}
@@ -57,7 +57,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
       {/* Subheadline */}
       <motion.p
         variants={childVars as Parameters<typeof motion.p>[0]['variants']}
-        className="text-white/55 text-base leading-relaxed max-w-md"
+        className="text-slate-500 text-base leading-relaxed max-w-md"
       >
         {overrides.subheadline ?? siteConfig.subheadline}
       </motion.p>
