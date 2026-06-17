@@ -80,7 +80,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-slate-900`}
-        style={{ background: '#f0f9ff', fontFamily: 'var(--font-body, system-ui)' }}
+        style={{ background: 'var(--background, #fefce8)', fontFamily: 'var(--font-body, system-ui)' }}
       >
 
         <SchemaOrg />
@@ -100,8 +100,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Providers>
 
         {flags.chatbot && <ChatBot />}
-        <FeedbackWidget siteName="QuizBites" accentColor="#3b82f6" accentColor2="#6366f1" position={flags.chatbot ? 'left' : 'right'} />
-        <BackToTop accentColor="#3b82f6" />
+        <FeedbackWidget siteName="QuizBites" accentColor="#ca8a04" accentColor2="#a16207" position={flags.chatbot ? 'left' : 'right'} />
+        <BackToTop accentColor="#ca8a04" />
 
         <FooterExtras />
         <Footer siteName={config.name} />

@@ -84,7 +84,7 @@ body {
 .input-field {
   width: 100%;
   background: #ffffff;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border, #fde68a);
   border-radius: 12px;
   padding: 12px 16px;
   color: #0f172a;
@@ -135,6 +135,51 @@ body {
 /* Aceternity UI — spotlight animation */
 @keyframes spotlight { 0%{opacity:0;transform:translate(-72%,-62%) scale(0.5)} 100%{opacity:1;transform:translate(-50%,-40%) scale(1)} }
 .animate-spotlight { animation: spotlight 2s ease 0.75s 1 forwards; }
+
+/* ── EX1: Animated background orbs ─────────────────────── */
+@keyframes float-orb {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, -20px) scale(1.1); }
+}
+.hero-bg {
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg::before,
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: float-orb 10s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-bg::before {
+  width: 400px;
+  height: 400px;
+  background: var(--accent, #ca8a04);
+  top: -100px;
+  right: -100px;
+}
+.hero-bg::after {
+  width: 300px;
+  height: 300px;
+  background: var(--accent-2, #a16207);
+  bottom: -80px;
+  left: -80px;
+  animation-delay: -5s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg::before, .hero-bg::after { animation: none; }
+}
+
+/* ── Confetti particles for L2 Card Arena ──────────────── */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
 
 /* ── Mobile: prevent horizontal overflow ── */
 html, body { overflow-x: hidden; max-width: 100%; }

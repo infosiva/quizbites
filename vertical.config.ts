@@ -159,7 +159,7 @@ const config: VerticalConfig = {
   name:       'QuizBites',
   tagline:    'Bite-sized AI quizzes — host a live session, your group competes in real time',
   domain:     'quizbites.app',
-  themeColor: 'blue',
+  themeColor: 'yellow',
 
   toolType:  'quiz',
   ageGroups: ['kids', 'teens', 'adults', 'all'],

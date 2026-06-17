@@ -4,6 +4,7 @@ import { createSession, type QuizQuestion } from '@/lib/sessions'
 import config from '@/vertical.config'
 import { isAiTool } from '@/vertical.config'
 import { AI_LIMITER } from '@/lib/rateLimit'
+import { logTopic } from '@/app/api/trending/route'
 
 function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase()
@@ -110,19 +111,34 @@ export async function POST(req: NextRequest) {
     const quizPrompt = isAiTool(config) ? (config.aiQuizPrompt ?? '') : ''
     const topic = customTopic || subject
 
+    const difficultyGuide: Record<string, string> = {
+      easy:   'Use simple vocabulary. Questions test recall and basic understanding. Explanations are short (1-2 sentences), friendly, and concrete. Suitable for ages 8-12 or complete beginners.',
+      medium: 'Use standard vocabulary. Questions test comprehension and application. Explanations give context (2-3 sentences) and mention why wrong answers are incorrect.',
+      hard:   'Use precise terminology. Questions require analysis, inference, or multi-step reasoning. Explanations are thorough (3-4 sentences), cite the underlying concept, and explain common misconceptions.',
+    }
+    const levelGuide = difficultyGuide[difficulty] ?? difficultyGuide.medium
+
     const prompt = `${quizPrompt}
 
 Topic: ${topic}
 Subject area: ${subject}
-Difficulty: ${difficulty}
+Difficulty level: ${difficulty}
+Level guidance: ${levelGuide}
 Number of questions: ${questionCount ?? 10}
+
+Rules:
+- Every question must be unambiguous — only one answer is clearly correct.
+- Every explanation must teach: explain WHY the correct answer is right AND why the most tempting wrong answer is wrong.
+- Tailor vocabulary, sentence length, and concept depth to the difficulty level above.
+- Vary question types across the set: recall, conceptual understanding, application, analysis (pick types appropriate for the level).
+- Do NOT repeat the same question pattern more than twice.
 
 IMPORTANT: Return ONLY valid JSON, no markdown, no explanation outside JSON.
 Format: { "topic": "...", "difficulty": "...", "questions": [{ "id": 1, "question": "...", "options": { "A": "...", "B": "...", "C": "...", "D": "..." }, "answer": "A", "explanation": "..." }] }`
 
     let questions: QuizQuestion[]
     try {
-      const aiResponse = await aiChat([{ role: 'user', content: prompt }], config.aiSystemPrompt, 1200, 'best')
+      const aiResponse = await aiChat([{ role: 'user', content: prompt }], config.aiSystemPrompt, 2000, 'best')
       questions = parseQuestions(aiResponse)
     } catch {
       questions = FALLBACK_QUESTIONS
@@ -139,6 +155,8 @@ Format: { "topic": "...", "difficulty": "...", "questions": [{ "id": 1, "questio
       difficulty,
       questions,
     })
+
+    logTopic(topic, subject)
 
     return NextResponse.json({ sessionId, code, questions })
   } catch (err) {

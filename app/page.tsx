@@ -14,18 +14,26 @@ import FinalCTA          from '@/components/FinalCTA'
 import StreakBar         from '@/components/StreakBar'
 import MasteryBar        from '@/components/MasteryBar'
 import EmptyStateDemo    from '@/components/EmptyStateDemo'
+import LiveStatsBar      from '@/components/LiveStatsBar'
+import PlanPreview       from '@/components/PlanPreview'
+import DashboardPreview  from '@/components/DashboardPreview'
+import TrendingTopics    from '@/components/TrendingTopics'
 
 const SECTION_MAP: Record<string, React.ReactNode> = {
-  hero:        <HeroSection />,
-  streakBar:   <Suspense fallback={null}><StreakBar /></Suspense>,
-  masteryBar:  <Suspense fallback={null}><MasteryBar topic="General Knowledge" /></Suspense>,
-  emptyDemo:   <Suspense fallback={null}><EmptyStateDemo /></Suspense>,
-  marquee:     <MarqueeBar />,
-  howItWorks:  <HowItWorksSection />,
-  features:    <Suspense fallback={<div className="h-96" />}><FeaturesGrid /></Suspense>,
-  pricing:     <PricingSection />,
-  faq:         <FAQSection />,
-  finalCta:    <FinalCTA />,
+  hero:              <HeroSection />,
+  liveStats:         <LiveStatsBar />,
+  trendingTopics:    <TrendingTopics />,
+  streakBar:         <Suspense fallback={null}><StreakBar /></Suspense>,
+  masteryBar:        <Suspense fallback={null}><MasteryBar topic="General Knowledge" /></Suspense>,
+  emptyDemo:         <Suspense fallback={null}><EmptyStateDemo /></Suspense>,
+  marquee:           <MarqueeBar />,
+  howItWorks:        <HowItWorksSection />,
+  features:          <Suspense fallback={<div className="h-96" />}><FeaturesGrid /></Suspense>,
+  planPreview:       <PlanPreview />,
+  dashboardPreview:  <DashboardPreview />,
+  pricing:           <PricingSection />,
+  faq:               <FAQSection />,
+  finalCta:          <FinalCTA />,
 }
 
 export default async function HomePage() {

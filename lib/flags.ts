@@ -23,6 +23,45 @@ const FLAG_KEYS = Object.keys(DEFAULTS) as (keyof SiteFlags)[]
 const EC_TTL = 60_000
 const _cache: Record<string, { flags: SiteFlags; at: number }> = {}
 
+export interface SiteSettings {
+  accentColor?: string
+  accentColor2?: string
+  statsBaseline?: { quizzes: number; questions: number; topics: number }
+  promoCodes?: string
+  chatbotModel?: string
+  rateLimit?: number
+}
+
+const SETTINGS_DEFAULTS: SiteSettings = {
+  accentColor: '#ca8a04',
+  accentColor2: '#a16207',
+  statsBaseline: { quizzes: 142, questions: 3847, topics: 89 },
+  chatbotModel: 'llama-3.3-70b-versatile',
+  rateLimit: 60,
+}
+
+export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
+  const connStr = process.env.EDGE_CONFIG
+  if (!connStr) return { ...SETTINGS_DEFAULTS }
+
+  try {
+    const settingsKey = `settings_${siteId}`
+    const url = connStr.replace(/\/+$/, '')
+    const res = await fetch(`${url}/items?key=${encodeURIComponent(settingsKey)}`, {
+      headers: { accept: 'application/json' },
+      next: { revalidate: 0 },
+    })
+    if (!res.ok) return { ...SETTINGS_DEFAULTS }
+    const data = await res.json()
+    const raw = Array.isArray(data.items) ? data.items[0]?.value : data[settingsKey]
+    if (!raw || typeof raw !== 'object') return { ...SETTINGS_DEFAULTS }
+    return { ...SETTINGS_DEFAULTS, ...raw }
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'production') console.warn('[flags] getSiteSettings error:', e)
+    return { ...SETTINGS_DEFAULTS }
+  }
+}
+
 export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
   const now = Date.now()
   if (_cache[siteId] && now - _cache[siteId].at < EC_TTL) {
@@ -64,7 +103,8 @@ export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
 
     _cache[siteId] = { flags, at: now }
     return flags
-  } catch {
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'production') console.warn('[flags] getSiteFlags error:', e)
     return { ...DEFAULTS }
   }
 }

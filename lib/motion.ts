@@ -8,8 +8,8 @@ export const SPRING_SNAPPY    = { type: 'spring' as const, stiffness: 400, dampi
 export const SPRING_BUTTON    = { type: 'spring' as const, stiffness: 400, damping: 17 }
 
 export const FADE_UP = {
-  hidden: { opacity: 0, y: 24, filter: 'blur(6px)' },
-  show:   { opacity: 1, y: 0,  filter: 'blur(0px)' },
+  hidden: { opacity: 0, y: 16 },
+  show:   { opacity: 1, y: 0  },
 }
 
 export const FADE_IN = {

@@ -51,22 +51,25 @@ export default function QuickQuiz() {
     setDone(false)
   }
 
+  const cardStyle: React.CSSProperties = {
+    background: '#ffffff',
+    border: '1px solid var(--border, #fde68a)',
+    borderRadius: '1rem',
+    boxShadow: '0 4px 24px rgba(202,138,4,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+  }
+
   if (done) {
     return (
-      <div
-        className="rounded-2xl border border-blue-500/20 p-6 w-full max-w-md mx-auto flex flex-col items-center gap-4"
-        style={{ background: 'rgba(5, 10, 24, 0.92)', backdropFilter: 'blur(20px)' }}
-      >
-        {/* Header */}
+      <div className="p-6 w-full max-w-md mx-auto flex flex-col items-center gap-4" style={cardStyle}>
         <div className="flex items-center gap-2 self-start">
-          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-          <span className="text-[11px] font-bold uppercase tracking-widest text-blue-400/80">
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent, #ca8a04)' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent, #ca8a04)' }}>
             QuizBites AI
           </span>
         </div>
 
-        <div className="text-6xl font-black text-white">{score}/3</div>
-        <p className="text-white/55 text-sm text-center">
+        <div className="text-6xl font-black" style={{ color: 'var(--accent, #ca8a04)' }}>{score}/3</div>
+        <p className="text-slate-500 text-sm text-center">
           {score === 3
             ? 'Perfect score! You\'re a quiz master.'
             : score === 2
@@ -76,14 +79,15 @@ export default function QuickQuiz() {
         <div className="flex flex-col sm:flex-row gap-3 w-full mt-1">
           <button
             onClick={restart}
-            className="flex-1 rounded-xl border border-blue-500/30 px-4 py-2.5 text-sm font-bold text-blue-300 hover:bg-blue-500/10 transition-colors"
+            className="flex-1 rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors active:scale-[0.97]"
+            style={{ borderColor: 'var(--border, #fde68a)', color: 'var(--accent, #ca8a04)' }}
           >
             Play Again
           </button>
           <a
             href="/host"
-            className="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-white text-center transition-all hover:opacity-90"
-            style={{ background: 'rgba(37,99,235,1)' }}
+            className="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-white text-center transition-all hover:opacity-90 active:scale-[0.97]"
+            style={{ background: 'var(--accent, #ca8a04)' }}
           >
             Make your own quiz →
           </a>
@@ -93,39 +97,36 @@ export default function QuickQuiz() {
   }
 
   return (
-    <div
-      className="rounded-2xl border border-blue-500/20 p-5 w-full max-w-md mx-auto"
-      style={{ background: 'rgba(5, 10, 24, 0.92)', backdropFilter: 'blur(20px)' }}
-    >
+    <div className="p-5 w-full max-w-md mx-auto" style={cardStyle}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-          <span className="text-[11px] font-bold uppercase tracking-widest text-blue-400/80">
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent, #ca8a04)' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent, #ca8a04)' }}>
             QuizBites AI
           </span>
         </div>
-        <span className="text-[10px] text-white/25 font-medium">
+        <span className="text-[10px] text-slate-400 font-medium">
           {current + 1} / {questions.length}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1 rounded-full mb-4 overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+      <div className="h-1 rounded-full mb-4 overflow-hidden bg-yellow-100">
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${((current) / questions.length) * 100}%`, background: 'rgba(37,99,235,0.9)' }}
+          style={{ width: `${((current) / questions.length) * 100}%`, background: 'var(--accent, #ca8a04)' }}
         />
       </div>
 
       {/* Score */}
       <div className="flex justify-between items-center mb-4">
-        <span className="text-[10px] text-white/35 uppercase tracking-widest font-medium">Try a quick quiz</span>
-        <span className="text-[11px] font-bold text-emerald-400">Score: {score}</span>
+        <span className="text-[10px] text-slate-400 uppercase tracking-widest font-medium">Try a quick quiz</span>
+        <span className="text-[11px] font-bold text-emerald-600">Score: {score}</span>
       </div>
 
       {/* Question */}
-      <p className="text-white/90 text-sm font-semibold leading-snug mb-4">{q.q}</p>
+      <p className="text-slate-800 text-sm font-semibold leading-snug mb-4">{q.q}</p>
 
       {/* Options */}
       <div className="flex flex-col gap-2">
@@ -134,15 +135,15 @@ export default function QuickQuiz() {
           const isCorrect  = i === q.correct
           const showResult = selected !== null
 
-          let bg          = 'rgba(255,255,255,0.03)'
-          let borderColor = 'rgba(255,255,255,0.07)'
-          let textColor   = 'rgba(255,255,255,0.6)'
+          let bg          = '#fefce8'
+          let borderColor = '#fde68a'
+          let textColor   = '#334155'
           let cursor      = 'pointer'
 
           if (showResult) {
             cursor = 'default'
-            if (isCorrect)               { bg = 'rgba(16,185,129,0.12)'; borderColor = 'rgba(52,211,153,0.4)'; textColor = 'rgba(52,211,153,1)' }
-            else if (isSelected)         { bg = 'rgba(239,68,68,0.12)';  borderColor = 'rgba(248,113,113,0.4)'; textColor = 'rgba(248,113,113,1)' }
+            if (isCorrect)               { bg = 'rgba(16,185,129,0.08)'; borderColor = 'rgba(16,185,129,0.4)'; textColor = '#059669' }
+            else if (isSelected)         { bg = 'rgba(239,68,68,0.08)';  borderColor = 'rgba(239,68,68,0.4)';  textColor = '#dc2626' }
           }
 
           return (
@@ -159,7 +160,7 @@ export default function QuickQuiz() {
                 textAlign: 'left',
                 fontSize: '0.8125rem',
                 fontWeight: showResult && isCorrect ? 600 : 400,
-                transition: 'background 0.2s, border-color 0.2s, color 0.2s',
+                transition: 'background 0.15s, border-color 0.15s, color 0.15s',
               }}
             >
               <span style={{ opacity: 0.5, marginRight: '0.5rem', fontSize: '0.75rem' }}>
@@ -173,7 +174,7 @@ export default function QuickQuiz() {
 
       {/* Explanation */}
       {selected !== null && (
-        <p className="mt-3 text-[12px] text-white/45 leading-relaxed" style={{ fontStyle: 'italic' }}>
+        <p className="mt-3 text-[12px] text-slate-500 leading-relaxed" style={{ fontStyle: 'italic' }}>
           💡 {q.explanation}
         </p>
       )}

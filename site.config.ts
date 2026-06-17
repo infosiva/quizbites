@@ -41,7 +41,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   siteName:   'QuizBites',
   domain:     'quizbites.app',
-  themeColor: 'blue',
+  themeColor: 'yellow',
 
   heroBadge:    'AI Quiz Maker for Teachers · Spaced Repetition · Free to Start',
   headline:     ['The quiz that remembers', 'what you got wrong.'],
@@ -131,7 +131,7 @@ export const siteConfig: SiteConfig = {
 
   layout: {
     heroVariant:  'split',
-    sectionOrder: ['hero', 'streakBar', 'masteryBar', 'emptyDemo', 'marquee', 'howItWorks', 'features', 'pricing', 'faq', 'finalCta'],
+    sectionOrder: ['hero', 'liveStats', 'streakBar', 'masteryBar', 'emptyDemo', 'marquee', 'howItWorks', 'features', 'trendingTopics', 'planPreview', 'dashboardPreview', 'faq', 'finalCta'],
     hideSections: [],
   },
 

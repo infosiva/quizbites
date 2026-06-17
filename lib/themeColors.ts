@@ -18,6 +18,7 @@ export const COLOR_MAP: Record<string, { primary: string; secondary: string; bas
   pink:    { primary: '#db2777', secondary: '#e11d48', base: '#120208' },
   fuchsia: { primary: '#a21caf', secondary: '#7c3aed', base: '#0f0510' },
   purple:  { primary: '#9333ea', secondary: '#a21caf', base: '#0a0712' },
+  yellow:  { primary: '#ca8a04', secondary: '#a16207', base: '#fefce8' },
 }
 
 export function getMeshStyle(themeColor: string): React.CSSProperties {
