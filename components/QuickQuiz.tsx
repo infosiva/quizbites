@@ -1,24 +1,34 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const questions = [
+  {
+    q: 'What is the powerhouse of the cell?',
+    options: ['Mitochondria', 'Nucleus', 'Ribosome', 'Vacuole'],
+    correct: 0,
+    explanation: 'Mitochondria produce ATP — the energy currency of the cell.',
+    cat: '🧬 Biology',
+  },
   {
     q: 'Which planet has the most moons in our solar system?',
     options: ['Jupiter', 'Saturn', 'Uranus', 'Neptune'],
     correct: 1,
     explanation: 'Saturn has 146 confirmed moons — more than any other planet.',
-  },
-  {
-    q: 'What year did the World Wide Web become publicly available?',
-    options: ['1985', '1989', '1991', '1995'],
-    correct: 2,
-    explanation: 'Tim Berners-Lee made the WWW publicly available in 1991.',
+    cat: '🪐 Space',
   },
   {
     q: 'Which element has the chemical symbol "Au"?',
     options: ['Silver', 'Aluminum', 'Gold', 'Argon'],
     correct: 2,
     explanation: 'Au comes from "Aurum", the Latin word for gold.',
+    cat: '⚗️ Chemistry',
+  },
+  {
+    q: 'Who painted the Mona Lisa?',
+    options: ['Picasso', 'Da Vinci', 'Monet', 'Raphael'],
+    correct: 1,
+    explanation: 'Leonardo da Vinci painted it c. 1503–1519.',
+    cat: '🎨 Art',
   },
 ]
 
@@ -27,6 +37,20 @@ export default function QuickQuiz() {
   const [selected, setSelected] = useState<number | null>(null)
   const [score, setScore]       = useState(0)
   const [done, setDone]         = useState(false)
+  const [flipping, setFlipping] = useState(false)
+
+  // Auto-cycle when no interaction after 5s on current question
+  useEffect(() => {
+    if (selected !== null || done) return
+    const t = setTimeout(() => {
+      setFlipping(true)
+      setTimeout(() => {
+        setCurrent(c => (c + 1) % questions.length)
+        setFlipping(false)
+      }, 350)
+    }, 5000)
+    return () => clearTimeout(t)
+  }, [current, selected, done])
 
   const q = questions[current]
 
@@ -38,8 +62,12 @@ export default function QuickQuiz() {
       if (current + 1 >= questions.length) {
         setDone(true)
       } else {
-        setCurrent(c => c + 1)
-        setSelected(null)
+        setFlipping(true)
+        setTimeout(() => {
+          setCurrent(c => c + 1)
+          setSelected(null)
+          setFlipping(false)
+        }, 350)
       }
     }, 1400)
   }
@@ -49,45 +77,49 @@ export default function QuickQuiz() {
     setSelected(null)
     setScore(0)
     setDone(false)
+    setFlipping(false)
   }
 
   const cardStyle: React.CSSProperties = {
-    background: '#ffffff',
-    border: '1px solid var(--border, #fde68a)',
-    borderRadius: '1rem',
-    boxShadow: '0 4px 24px rgba(202,138,4,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '1.25rem',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06) inset',
+    transition: 'opacity 0.35s cubic-bezier(0.23,1,0.32,1), transform 0.35s cubic-bezier(0.23,1,0.32,1)',
+    opacity: flipping ? 0 : 1,
+    transform: flipping ? 'scale(0.97) translateY(4px)' : 'scale(1) translateY(0)',
   }
 
   if (done) {
     return (
-      <div className="p-6 w-full max-w-md mx-auto flex flex-col items-center gap-4" style={cardStyle}>
+      <div className="p-6 w-full max-w-md mx-auto flex flex-col items-center gap-4" style={{ ...cardStyle, opacity: 1, transform: 'none' }}>
         <div className="flex items-center gap-2 self-start">
-          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent, #ca8a04)' }} />
-          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent, #ca8a04)' }}>
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#f59e0b' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#f59e0b' }}>
             QuizBites AI
           </span>
         </div>
 
-        <div className="text-6xl font-black" style={{ color: 'var(--accent, #ca8a04)' }}>{score}/3</div>
-        <p className="text-slate-500 text-sm text-center">
-          {score === 3
+        <div className="text-6xl font-black" style={{ color: '#f59e0b' }}>{score}/{questions.length}</div>
+        <p className="text-sm text-center" style={{ color: 'rgba(241,245,249,0.6)' }}>
+          {score === questions.length
             ? 'Perfect score! You\'re a quiz master.'
-            : score === 2
+            : score >= questions.length / 2
             ? 'Great job — one more go?'
             : 'Keep going — practice makes perfect.'}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 w-full mt-1">
           <button
             onClick={restart}
-            className="flex-1 rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors active:scale-[0.97]"
-            style={{ borderColor: 'var(--border, #fde68a)', color: 'var(--accent, #ca8a04)' }}
+            className="flex-1 rounded-xl border px-4 py-2.5 text-sm font-bold transition-all active:scale-[0.97]"
+            style={{ borderColor: 'rgba(245,158,11,0.3)', color: '#f59e0b', background: 'rgba(245,158,11,0.08)' }}
           >
             Play Again
           </button>
           <a
             href="/host"
-            className="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-white text-center transition-all hover:opacity-90 active:scale-[0.97]"
-            style={{ background: 'var(--accent, #ca8a04)' }}
+            className="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-center transition-all hover:opacity-90 active:scale-[0.97]"
+            style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#000' }}
           >
             Make your own quiz →
           </a>
@@ -101,32 +133,42 @@ export default function QuickQuiz() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--accent, #ca8a04)' }} />
-          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent, #ca8a04)' }}>
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#f59e0b' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#f59e0b' }}>
             QuizBites AI
           </span>
         </div>
-        <span className="text-[10px] text-slate-400 font-medium">
-          {current + 1} / {questions.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <span
+            className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
+            style={{ background: 'rgba(245,158,11,0.12)', color: '#fbbf24' }}
+          >
+            {q.cat}
+          </span>
+          <span className="text-[10px] font-medium" style={{ color: 'rgba(241,245,249,0.4)' }}>
+            {current + 1} / {questions.length}
+          </span>
+        </div>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1 rounded-full mb-4 overflow-hidden bg-yellow-100">
+      <div className="h-1 rounded-full mb-4 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${((current) / questions.length) * 100}%`, background: 'var(--accent, #ca8a04)' }}
+          style={{ width: `${((current) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' }}
         />
       </div>
 
       {/* Score */}
       <div className="flex justify-between items-center mb-4">
-        <span className="text-[10px] text-slate-400 uppercase tracking-widest font-medium">Try a quick quiz</span>
-        <span className="text-[11px] font-bold text-emerald-600">Score: {score}</span>
+        <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'rgba(241,245,249,0.4)' }}>
+          Try a quick quiz
+        </span>
+        <span className="text-[11px] font-bold" style={{ color: '#10b981' }}>Score: {score}</span>
       </div>
 
       {/* Question */}
-      <p className="text-slate-800 text-sm font-semibold leading-snug mb-4">{q.q}</p>
+      <p className="text-sm font-semibold leading-snug mb-4" style={{ color: '#f1f5f9' }}>{q.q}</p>
 
       {/* Options */}
       <div className="flex flex-col gap-2">
@@ -135,15 +177,18 @@ export default function QuickQuiz() {
           const isCorrect  = i === q.correct
           const showResult = selected !== null
 
-          let bg          = '#fefce8'
-          let borderColor = '#fde68a'
-          let textColor   = '#334155'
-          let cursor      = 'pointer'
+          let bg          = 'rgba(255,255,255,0.04)'
+          let borderColor = 'rgba(255,255,255,0.1)'
+          let textColor   = 'rgba(241,245,249,0.85)'
+          const cursor      = showResult ? 'default' : 'pointer'
 
           if (showResult) {
-            cursor = 'default'
-            if (isCorrect)               { bg = 'rgba(16,185,129,0.08)'; borderColor = 'rgba(16,185,129,0.4)'; textColor = '#059669' }
-            else if (isSelected)         { bg = 'rgba(239,68,68,0.08)';  borderColor = 'rgba(239,68,68,0.4)';  textColor = '#dc2626' }
+            if (isCorrect)       { bg = 'rgba(16,185,129,0.1)';  borderColor = 'rgba(16,185,129,0.4)';  textColor = '#10b981' }
+            else if (isSelected) { bg = 'rgba(239,68,68,0.08)';  borderColor = 'rgba(239,68,68,0.35)';  textColor = '#ef4444' }
+          } else if (isSelected) {
+            bg = 'rgba(245,158,11,0.1)'
+            borderColor = 'rgba(245,158,11,0.4)'
+            textColor = '#fbbf24'
           }
 
           return (
@@ -152,7 +197,7 @@ export default function QuickQuiz() {
               onClick={() => handleAnswer(i)}
               style={{
                 background: bg,
-                border: `1px solid ${borderColor}`,
+                border: `1.5px solid ${borderColor}`,
                 color: textColor,
                 cursor,
                 borderRadius: '0.625rem',
@@ -163,7 +208,7 @@ export default function QuickQuiz() {
                 transition: 'background 0.15s, border-color 0.15s, color 0.15s',
               }}
             >
-              <span style={{ opacity: 0.5, marginRight: '0.5rem', fontSize: '0.75rem' }}>
+              <span style={{ opacity: 0.45, marginRight: '0.5rem', fontSize: '0.75rem' }}>
                 {['A', 'B', 'C', 'D'][i]}.
               </span>
               {opt}
@@ -174,8 +219,18 @@ export default function QuickQuiz() {
 
       {/* Explanation */}
       {selected !== null && (
-        <p className="mt-3 text-[12px] text-slate-500 leading-relaxed" style={{ fontStyle: 'italic' }}>
+        <p
+          className="mt-3 text-[12px] leading-relaxed"
+          style={{ color: 'rgba(241,245,249,0.5)', fontStyle: 'italic' }}
+        >
           💡 {q.explanation}
+        </p>
+      )}
+
+      {/* Auto-cycle hint */}
+      {selected === null && (
+        <p className="mt-3 text-[10px] text-center" style={{ color: 'rgba(241,245,249,0.25)' }}>
+          Auto-cycles · tap an answer to play
         </p>
       )}
     </div>
