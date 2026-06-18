@@ -15,7 +15,15 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="text-xl leading-none">📝</span>
+          <span
+            className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0"
+            style={{ background: 'linear-gradient(135deg, #ca8a04, #f59e0b)' }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2" strokeOpacity="0.55"/>
+              <path d="M7 12.5l3.2 3.2L17 9" stroke="white" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </span>
           <div>
             <span className="font-bold text-lg text-slate-900 leading-none block tracking-tight">
               Quiz<span style={{ color: 'var(--accent, #ca8a04)' }}>Bites</span>
