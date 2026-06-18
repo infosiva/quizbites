@@ -9,15 +9,15 @@ export default function FeaturesGrid() {
   const itemVars      = useMotionVariants(FADE_UP)
 
   return (
-    <section id="features" className="py-8 px-4 sm:px-6 max-w-5xl mx-auto border-t border-white/[0.05]">
+    <section id="features" className="py-8 px-4 sm:px-6 max-w-5xl mx-auto border-t" style={{ borderColor: 'var(--border, #fde68a)' }}>
       <div className="text-center mb-10">
-        <h2 className="text-2xl font-black text-white mb-2">Built for busy teachers</h2>
-        <p className="text-white/40 text-sm">Every feature is designed to save you time and give you real classroom insight</p>
+        <h2 className="text-2xl font-black mb-2" style={{ color: 'var(--foreground, #0f172a)' }}>Built for busy teachers</h2>
+        <p className="text-sm" style={{ color: 'var(--text-2, #475569)' }}>Every feature is designed to save you time and give you real classroom insight</p>
       </div>
 
       <motion.div
         variants={containerVars as Parameters<typeof motion.div>[0]['variants']}
-        initial="hidden"
+        initial="show"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-auto gap-4"
@@ -31,14 +31,15 @@ export default function FeaturesGrid() {
               variants={itemVars as Parameters<typeof motion.div>[0]['variants']}
               {...CARD_HOVER}
               transition={SPRING_CINEMATIC}
-              className={`rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 flex flex-col gap-3 cursor-default select-none
+              className={`rounded-2xl border p-6 flex flex-col gap-3 cursor-default select-none
                 ${isLarge ? 'md:col-span-1 md:row-span-2' : ''}
                 ${isWide  ? 'sm:col-span-2 md:col-span-2' : ''}
               `}
+              style={{ borderColor: 'var(--border, #fde68a)', background: 'var(--surface-1, #ffffff)' }}
             >
               <span className={`${isLarge ? 'text-4xl' : 'text-3xl'}`}>{f.icon}</span>
-              <div className={`font-bold text-white ${isLarge ? 'text-lg' : 'text-sm'}`}>{f.title}</div>
-              <div className={`text-white/45 leading-relaxed ${isLarge ? 'text-sm' : 'text-xs'}`}>{f.desc}</div>
+              <div className={`font-bold ${isLarge ? 'text-lg' : 'text-sm'}`} style={{ color: 'var(--foreground, #0f172a)' }}>{f.title}</div>
+              <div className={`leading-relaxed ${isLarge ? 'text-sm' : 'text-xs'}`} style={{ color: 'var(--text-2, #475569)' }}>{f.desc}</div>
             </motion.div>
           )
         })}

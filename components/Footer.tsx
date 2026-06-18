@@ -39,7 +39,7 @@ export default function Footer({
   const allLinks = [...complianceLinks, ...extraLinks];
 
   return (
-    <footer className={`w-full border-t border-white/[0.06] bg-transparent mt-auto ${className}`}>
+    <footer className={`w-full border-t bg-transparent mt-auto ${className}`} style={{ borderColor: 'var(--border, #fde68a)' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Brand + links row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -47,17 +47,17 @@ export default function Footer({
             {(icon || siteName) && (
               <div className="flex items-center gap-2 mb-1.5">
                 {icon && <span className="text-xl">{icon}</span>}
-                <span className="font-bold text-white text-sm">{siteName}</span>
+                <span className="font-bold text-sm" style={{ color: 'var(--foreground, #0f172a)' }}>{siteName}</span>
               </div>
             )}
             {tagline && (
-              <p className="text-white/40 text-xs max-w-xs">{tagline}</p>
+              <p className="text-xs max-w-xs" style={{ color: 'var(--text-3, #64748b)' }}>{tagline}</p>
             )}
           </div>
 
-          <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-4 text-xs text-white/40">
+          <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-4 text-xs" style={{ color: 'var(--text-3, #64748b)' }}>
             {allLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-white/70 transition-colors">
+              <Link key={link.href} href={link.href} className="hover:opacity-70 transition-opacity" style={{ color: 'var(--text-2, #475569)' }}>
                 {link.label}
               </Link>
             ))}
@@ -65,10 +65,10 @@ export default function Footer({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
+        <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ borderColor: 'var(--border, #fde68a)', color: 'var(--text-3, #64748b)' }}>
           <span>© {year} {siteName}. All rights reserved.</span>
           <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Built with AI
           </span>
         </div>

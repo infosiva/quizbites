@@ -7,31 +7,32 @@ export default function PricingSection() {
   const { free, pro } = siteConfig.pricing
 
   return (
-    <section id="pricing" className="py-8 px-4 sm:px-6 max-w-4xl mx-auto border-t border-white/[0.05]">
+    <section id="pricing" className="py-8 px-4 sm:px-6 max-w-4xl mx-auto border-t" style={{ borderColor: 'var(--border, #fde68a)' }}>
       <div className="text-center mb-10">
-        <h2 className="text-2xl font-black text-white mb-2">Free vs Pro</h2>
-        <p className="text-white/40 text-sm">Transparent pricing — no surprises</p>
+        <h2 className="text-2xl font-black mb-2" style={{ color: 'var(--foreground, #0f172a)' }}>Free vs Pro</h2>
+        <p className="text-sm" style={{ color: 'var(--text-2, #475569)' }}>Transparent pricing — no surprises</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* FREE */}
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 flex flex-col gap-4">
+        <div className="rounded-2xl border p-6 flex flex-col gap-4" style={{ borderColor: 'var(--border, #fde68a)', background: 'var(--surface-1, #ffffff)' }}>
           <div>
-            <div className="text-white/50 text-xs font-black uppercase tracking-widest mb-1">{free.name}</div>
-            <div className="text-3xl font-black text-white">{free.price}</div>
-            <div className="text-white/30 text-xs mt-0.5">{free.period}</div>
+            <div className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: 'var(--text-3, #64748b)' }}>{free.name}</div>
+            <div className="text-3xl font-black" style={{ color: 'var(--foreground, #0f172a)' }}>{free.price}</div>
+            <div className="text-xs mt-0.5" style={{ color: 'var(--text-3, #64748b)' }}>{free.period}</div>
           </div>
           <ul className="flex flex-col gap-2.5 flex-1">
             {free.features.map(f => (
               <li key={f.text} className="flex items-center gap-2.5 text-sm">
-                <span className={f.included ? 'text-green-400' : 'text-white/20'}>{f.included ? '✓' : '✗'}</span>
-                <span className={f.included ? 'text-white/70' : 'text-white/25 line-through'}>{f.text}</span>
+                <span className={f.included ? 'text-emerald-600' : ''} style={!f.included ? { color: 'var(--text-3, #64748b)', opacity: 0.5 } : undefined}>{f.included ? '✓' : '✗'}</span>
+                <span className={f.included ? '' : 'line-through'} style={{ color: 'var(--text-2, #475569)', opacity: f.included ? 1 : 0.6 }}>{f.text}</span>
               </li>
             ))}
           </ul>
           <Link
             href={free.cta.href}
-            className="mt-2 block text-center px-5 py-3 rounded-xl border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-all"
+            className="mt-2 block text-center px-5 py-3 rounded-xl border text-sm font-bold transition-all hover:opacity-80"
+            style={{ borderColor: 'var(--border, #fde68a)', color: 'var(--text-2, #475569)' }}
           >
             {free.cta.text}
           </Link>
@@ -49,14 +50,14 @@ export default function PricingSection() {
           )}
           <div>
             <div className={`${theme.textAccent} text-xs font-black uppercase tracking-widest mb-1`}>{pro.name}</div>
-            <div className="text-3xl font-black text-white">{pro.price}</div>
-            <div className="text-white/30 text-xs mt-0.5">{pro.period}</div>
+            <div className="text-3xl font-black" style={{ color: 'var(--foreground, #0f172a)' }}>{pro.price}</div>
+            <div className="text-xs mt-0.5" style={{ color: 'var(--text-3, #64748b)' }}>{pro.period}</div>
           </div>
           <ul className="flex flex-col gap-2.5 flex-1">
             {pro.features.map(f => (
               <li key={f.text} className="flex items-center gap-2.5 text-sm">
-                <span className="text-green-400">✓</span>
-                <span className="text-white/80">{f.text}</span>
+                <span className="text-emerald-600">✓</span>
+                <span style={{ color: 'var(--text-2, #475569)' }}>{f.text}</span>
               </li>
             ))}
           </ul>
