@@ -22,10 +22,10 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         <span
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest"
           style={{
-            background: 'rgba(245,158,11,0.1)',
-            border: '1px solid rgba(245,158,11,0.25)',
-            boxShadow: 'inset 0 1px 0 rgba(245,158,11,0.12)',
-            color: '#f59e0b',
+            background: 'rgba(245,158,11,0.22)',
+            border: '1px solid rgba(245,158,11,0.45)',
+            boxShadow: 'inset 0 1px 0 rgba(245,158,11,0.15)',
+            color: '#fef3c7',
           }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
