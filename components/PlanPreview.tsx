@@ -47,7 +47,7 @@ export default function PlanPreview() {
           <div
             className="rounded-2xl border p-6 flex flex-col relative"
             style={{
-              borderColor: 'var(--accent, #ca8a04)',
+              borderColor: 'var(--accent, #fbbf24)',
               background: '#ffffff',
               boxShadow: '0 0 24px rgba(202,138,4,0.12)',
               transform: 'translateY(-4px)',
@@ -56,14 +56,14 @@ export default function PlanPreview() {
             {pricing.pro.badge && (
               <span
                 className="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-bold text-white"
-                style={{ background: 'var(--accent, #ca8a04)' }}
+                style={{ background: 'var(--accent, #fbbf24)' }}
               >
                 {pricing.pro.badge}
               </span>
             )}
 
             <div className="mb-4">
-              <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent, #ca8a04)' }}>
+              <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent, #fbbf24)' }}>
                 {pricing.pro.name}
               </span>
               <div className="mt-1">
@@ -75,7 +75,7 @@ export default function PlanPreview() {
             <ul className="flex-1 flex flex-col gap-2.5 mb-6">
               {pricing.pro.features.map((f, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
-                  <span style={{ color: 'var(--accent, #ca8a04)' }}>✓</span>
+                  <span style={{ color: 'var(--accent, #fbbf24)' }}>✓</span>
                   <span className="text-slate-700">{f.text}</span>
                 </li>
               ))}
@@ -84,7 +84,7 @@ export default function PlanPreview() {
             <Link
               href={pricing.pro.cta.href}
               className="block text-center rounded-xl py-2.5 font-bold text-white transition-all hover:opacity-90 active:scale-[0.97]"
-              style={{ background: 'var(--accent, #ca8a04)' }}
+              style={{ background: 'var(--accent, #fbbf24)' }}
             >
               {pricing.pro.cta.text}
             </Link>

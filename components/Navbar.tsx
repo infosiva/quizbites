@@ -17,7 +17,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5">
           <span
             className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0"
-            style={{ background: 'linear-gradient(135deg, #ca8a04, #f59e0b)' }}
+            style={{ background: 'linear-gradient(135deg, #ca8a04, #fbbf24)' }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2" strokeOpacity="0.55"/>
@@ -26,9 +26,9 @@ export default function Navbar() {
           </span>
           <div>
             <span className="font-bold text-lg text-slate-900 leading-none block tracking-tight">
-              Quiz<span style={{ color: 'var(--accent, #ca8a04)' }}>Bites</span>
+              Quiz<span style={{ color: 'var(--accent, #fbbf24)' }}>Bites</span>
             </span>
-            <span className="text-[10px] font-medium leading-none block uppercase tracking-widest" style={{ color: 'color-mix(in srgb, var(--accent, #ca8a04) 70%, transparent)' }}>AI quiz maker for teachers</span>
+            <span className="text-[10px] font-medium leading-none block uppercase tracking-widest" style={{ color: 'color-mix(in srgb, var(--accent, #fbbf24) 70%, transparent)' }}>AI quiz maker for teachers</span>
           </div>
         </Link>
 
@@ -55,7 +55,7 @@ export default function Navbar() {
           </Link>
           <Link href="/host"
             className="flex items-center gap-1.5 rounded-full px-5 py-1.5 text-sm font-bold text-white transition-all hover:brightness-110 active:scale-[0.97]"
-            style={{ background: 'var(--accent, #ca8a04)', boxShadow: '0 4px 16px rgba(202,138,4,0.25)' }}>
+            style={{ background: 'var(--accent, #fbbf24)', boxShadow: '0 4px 16px rgba(251,191,36,0.25)' }}>
             Start Quiz <ArrowRight size={14} />
           </Link>
         </div>
@@ -85,7 +85,7 @@ export default function Navbar() {
           </Link>
           <Link href="/host"
             className="text-center rounded-lg py-2.5 font-bold text-white active:scale-[0.97] transition-transform"
-            style={{ background: 'var(--accent, #ca8a04)' }}
+            style={{ background: 'var(--accent, #fbbf24)' }}
             onClick={() => setOpen(false)}>
             Start Quiz
           </Link>

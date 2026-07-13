@@ -33,8 +33,8 @@ export interface SiteSettings {
 }
 
 const SETTINGS_DEFAULTS: SiteSettings = {
-  accentColor: '#ca8a04',
-  accentColor2: '#a16207',
+  accentColor: '#fbbf24',
+  accentColor2: '#ca8a04',
   statsBaseline: { quizzes: 142, questions: 3847, topics: 89 },
   chatbotModel: 'llama-3.3-70b-versatile',
   rateLimit: 60,

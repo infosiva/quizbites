@@ -66,7 +66,7 @@ export default function TrendingTopics() {
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-slate-400 font-medium">{t.category}</span>
                 {t.quizCount > 0 && (
-                  <span className="text-[10px] font-bold" style={{ color: 'var(--accent, #ca8a04)' }}>
+                  <span className="text-[10px] font-bold" style={{ color: 'var(--accent, #fbbf24)' }}>
                     {t.quizCount} quizzes
                   </span>
                 )}
@@ -81,7 +81,7 @@ export default function TrendingTopics() {
             <Link
               href={`/host?topic=${encodeURIComponent(search)}`}
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.97]"
-              style={{ background: 'var(--accent, #ca8a04)' }}
+              style={{ background: 'var(--accent, #fbbf24)' }}
             >
               Create a quiz on &ldquo;{search}&rdquo; →
             </Link>

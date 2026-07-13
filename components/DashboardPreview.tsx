@@ -69,7 +69,7 @@ export default function DashboardPreview() {
               <p className="text-xs text-slate-400 mb-4">Type any topic and share with your class in seconds</p>
               <div
                 className="inline-flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-bold text-white"
-                style={{ background: 'var(--accent, #ca8a04)' }}
+                style={{ background: 'var(--accent, #fbbf24)' }}
               >
                 + New Quiz
               </div>
@@ -95,7 +95,7 @@ export default function DashboardPreview() {
           <a
             href="/host"
             className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-base font-bold text-white transition-all hover:opacity-90 active:scale-[0.97]"
-            style={{ background: 'var(--accent, #ca8a04)', boxShadow: '0 4px 16px rgba(202,138,4,0.25)' }}
+            style={{ background: 'var(--accent, #fbbf24)', boxShadow: '0 4px 16px rgba(251,191,36,0.25)' }}
           >
             Create Free Account →
           </a>

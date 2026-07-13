@@ -22,7 +22,7 @@ function AnimatedCounter({ value, label }: { value: number; label: string }) {
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <span className="text-2xl font-black tabular-nums" style={{ color: 'var(--accent, #ca8a04)' }}>
+      <span className="text-2xl font-black tabular-nums" style={{ color: 'var(--accent, #fbbf24)' }}>
         {display.toLocaleString()}
       </span>
       <span className="text-xs text-slate-500 font-medium">{label}</span>

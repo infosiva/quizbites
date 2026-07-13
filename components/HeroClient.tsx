@@ -22,9 +22,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         <span
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest"
           style={{
-            background: 'rgba(245,158,11,0.22)',
-            border: '1px solid rgba(245,158,11,0.45)',
-            boxShadow: 'inset 0 1px 0 rgba(245,158,11,0.15)',
+            background: 'rgba(251,191,36,0.22)',
+            border: '1px solid rgba(251,191,36,0.45)',
+            boxShadow: 'inset 0 1px 0 rgba(251,191,36,0.15)',
             color: '#fef3c7',
           }}
         >
@@ -48,11 +48,11 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               ? (
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 60%, #d97706 100%)',
+                    background: 'linear-gradient(135deg, #fbbf24 0%, #fbbf24 60%, #ca8a04 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: 'drop-shadow(0 0 24px rgba(245,158,11,0.35))',
+                    filter: 'drop-shadow(0 0 24px rgba(251,191,36,0.35))',
                   }}
                 >
                   {line}
@@ -83,9 +83,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
             key={pill}
             className="text-xs font-semibold px-3 py-1.5 rounded-full"
             style={{
-              background: 'rgba(245,158,11,0.1)',
+              background: 'rgba(251,191,36,0.1)',
               color: '#fbbf24',
-              border: '1px solid rgba(245,158,11,0.2)',
+              border: '1px solid rgba(251,191,36,0.2)',
             }}
           >
             {pill}
@@ -104,9 +104,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
             <button
               className="px-8 py-4 text-base font-bold rounded-xl min-h-[52px] transition-opacity hover:opacity-90 active:scale-[0.97]"
               style={{
-                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                background: 'linear-gradient(135deg, #fbbf24 0%, #ca8a04 100%)',
                 color: '#000',
-                boxShadow: '0 4px 20px rgba(245,158,11,0.35)',
+                boxShadow: '0 4px 20px rgba(251,191,36,0.35)',
                 border: 'none',
                 cursor: 'pointer',
               }}

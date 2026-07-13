@@ -47,7 +47,7 @@ export default function PromoCodeInput() {
       <button
         onClick={() => setShowInput(true)}
         className="text-sm font-medium transition-colors"
-        style={{ color: 'var(--accent, #ca8a04)' }}
+        style={{ color: 'var(--accent, #fbbf24)' }}
       >
         Have a promo code?
       </button>
@@ -69,7 +69,7 @@ export default function PromoCodeInput() {
         type="submit"
         disabled={status === 'loading'}
         className="px-3 py-1.5 text-sm font-bold text-white rounded-lg transition-opacity active:scale-[0.97]"
-        style={{ background: 'var(--accent, #ca8a04)', opacity: status === 'loading' ? 0.7 : 1 }}
+        style={{ background: 'var(--accent, #fbbf24)', opacity: status === 'loading' ? 0.7 : 1 }}
       >
         {status === 'loading' ? '...' : 'Apply'}
       </button>

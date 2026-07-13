@@ -94,13 +94,13 @@ export default function QuickQuiz() {
     return (
       <div className="p-6 w-full max-w-md mx-auto flex flex-col items-center gap-4" style={{ ...cardStyle, opacity: 1, transform: 'none' }}>
         <div className="flex items-center gap-2 self-start">
-          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#f59e0b' }} />
-          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#f59e0b' }}>
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#fbbf24' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#fbbf24' }}>
             QuizBites AI
           </span>
         </div>
 
-        <div className="text-6xl font-black" style={{ color: '#f59e0b' }}>{score}/{questions.length}</div>
+        <div className="text-6xl font-black" style={{ color: '#fbbf24' }}>{score}/{questions.length}</div>
         <p className="text-sm text-center" style={{ color: 'rgba(241,245,249,0.6)' }}>
           {score === questions.length
             ? 'Perfect score! You\'re a quiz master.'
@@ -112,14 +112,14 @@ export default function QuickQuiz() {
           <button
             onClick={restart}
             className="flex-1 rounded-xl border px-4 py-2.5 text-sm font-bold transition-all active:scale-[0.97]"
-            style={{ borderColor: 'rgba(245,158,11,0.3)', color: '#f59e0b', background: 'rgba(245,158,11,0.08)' }}
+            style={{ borderColor: 'rgba(251,191,36,0.3)', color: '#fbbf24', background: 'rgba(251,191,36,0.08)' }}
           >
             Play Again
           </button>
           <a
             href="/host"
             className="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-center transition-all hover:opacity-90 active:scale-[0.97]"
-            style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#000' }}
+            style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #ca8a04 100%)', color: '#000' }}
           >
             Make your own quiz →
           </a>
@@ -133,15 +133,15 @@ export default function QuickQuiz() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#f59e0b' }} />
-          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#f59e0b' }}>
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#fbbf24' }} />
+          <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#fbbf24' }}>
             QuizBites AI
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span
             className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-            style={{ background: 'rgba(245,158,11,0.12)', color: '#fbbf24' }}
+            style={{ background: 'rgba(251,191,36,0.12)', color: '#fbbf24' }}
           >
             {q.cat}
           </span>
@@ -155,7 +155,7 @@ export default function QuickQuiz() {
       <div className="h-1 rounded-full mb-4 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${((current) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' }}
+          style={{ width: `${((current) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #fbbf24, #fbbf24)' }}
         />
       </div>
 
@@ -186,8 +186,8 @@ export default function QuickQuiz() {
             if (isCorrect)       { bg = 'rgba(16,185,129,0.1)';  borderColor = 'rgba(16,185,129,0.4)';  textColor = '#10b981' }
             else if (isSelected) { bg = 'rgba(239,68,68,0.08)';  borderColor = 'rgba(239,68,68,0.35)';  textColor = '#ef4444' }
           } else if (isSelected) {
-            bg = 'rgba(245,158,11,0.1)'
-            borderColor = 'rgba(245,158,11,0.4)'
+            bg = 'rgba(251,191,36,0.1)'
+            borderColor = 'rgba(251,191,36,0.4)'
             textColor = '#fbbf24'
           }
 

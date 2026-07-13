@@ -12,7 +12,7 @@ interface Props {
 function getStage(count: number, total: number): { label: string; color: string; bgColor: string } {
   const pct = count / total
   if (pct >= 0.8) return { label: 'Mastered', color: '#10b981', bgColor: 'rgba(16, 185, 129, 0.15)' }
-  if (pct >= 0.4) return { label: 'Learning', color: '#f59e0b', bgColor: 'rgba(245, 158, 11, 0.12)' }
+  if (pct >= 0.4) return { label: 'Learning', color: '#fbbf24', bgColor: 'rgba(251,191,36, 0.12)' }
   return { label: 'Known', color: '#6366f1', bgColor: 'rgba(99, 102, 241, 0.10)' }
 }
 
