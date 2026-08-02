@@ -117,6 +117,7 @@ export async function POST(req: NextRequest) {
       hard:   'Use precise terminology. Questions require analysis, inference, or multi-step reasoning. Explanations are thorough (3-4 sentences), cite the underlying concept, and explain common misconceptions.',
     }
     const levelGuide = difficultyGuide[difficulty] ?? difficultyGuide.medium
+    const freshnessSeed = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`
 
     const prompt = `${quizPrompt}
 
@@ -125,6 +126,7 @@ Subject area: ${subject}
 Difficulty level: ${difficulty}
 Level guidance: ${levelGuide}
 Number of questions: ${questionCount ?? 10}
+Freshness token (do not mention in output, use only to vary question selection/angle from prior runs): ${freshnessSeed}
 
 Rules:
 - Every question must be unambiguous — only one answer is clearly correct.
