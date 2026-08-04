@@ -47,7 +47,7 @@ export default function QuickQuiz() {
       setTimeout(() => {
         setCurrent(c => (c + 1) % questions.length)
         setFlipping(false)
-      }, 350)
+      }, 250)
     }, 5000)
     return () => clearTimeout(t)
   }, [current, selected, done])
@@ -67,7 +67,7 @@ export default function QuickQuiz() {
           setCurrent(c => c + 1)
           setSelected(null)
           setFlipping(false)
-        }, 350)
+        }, 250)
       }
     }, 1400)
   }
@@ -85,7 +85,7 @@ export default function QuickQuiz() {
     border: '1px solid rgba(255,255,255,0.1)',
     borderRadius: '1.25rem',
     boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06) inset',
-    transition: 'opacity 0.35s cubic-bezier(0.23,1,0.32,1), transform 0.35s cubic-bezier(0.23,1,0.32,1)',
+    transition: 'opacity 0.25s cubic-bezier(0.23,1,0.32,1), transform 0.25s cubic-bezier(0.23,1,0.32,1)',
     opacity: flipping ? 0 : 1,
     transform: flipping ? 'scale(0.97) translateY(4px)' : 'scale(1) translateY(0)',
   }
