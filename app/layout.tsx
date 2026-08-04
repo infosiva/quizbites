@@ -6,7 +6,6 @@ const outfit = Outfit({ subsets: ['latin'], weight: ['700', '800', '900'], varia
 import './globals.css'
 import config from '@/vertical.config'
 import { getScrollbarColor, COLOR_MAP } from '@/lib/themeColors'
-import PageTracker from '@/components/PageTracker'
 import Navbar from '@/components/Navbar'
 import FooterExtras from '@/components/FooterExtras'
 import ChatBot from '@/components/ChatBot'
@@ -93,7 +92,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <PageTracker site='questly' />
         <Navbar />
 
         <Providers>
