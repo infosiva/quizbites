@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://quizbites.app'
-  const routes = ['/', '/create', '/join', '/pricing', '/about']
+  const routes = ['/', '/host', '/about', '/contact', '/privacy', '/terms']
   return routes.map(route => ({
     url: `${base}${route}`,
     lastModified: new Date(),
