@@ -1,7 +1,9 @@
 /**
  * Feature flags — reads toggle_quizbites_* from Vercel Edge Config
  * Server-side only (Next.js Server Components / API routes)
+ * Cached via unstable_cache (600s) — never call Edge Config uncached (see §0-EDGE-CONFIG-QUOTA)
  */
+import { unstable_cache } from 'next/cache'
 
 export interface SiteFlags {
   pricing: boolean
@@ -20,8 +22,6 @@ const DEFAULTS: SiteFlags = {
 }
 
 const FLAG_KEYS = Object.keys(DEFAULTS) as (keyof SiteFlags)[]
-const EC_TTL = 60_000
-const _cache: Record<string, { flags: SiteFlags; at: number }> = {}
 
 export interface SiteSettings {
   accentColor?: string
@@ -40,7 +40,7 @@ const SETTINGS_DEFAULTS: SiteSettings = {
   rateLimit: 60,
 }
 
-export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
+async function fetchSiteSettings(siteId: string): Promise<SiteSettings> {
   const connStr = process.env.EDGE_CONFIG
   if (!connStr) return { ...SETTINGS_DEFAULTS }
 
@@ -49,7 +49,6 @@ export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
     const url = connStr.replace(/\/+$/, '')
     const res = await fetch(`${url}/items?key=${encodeURIComponent(settingsKey)}`, {
       headers: { accept: 'application/json' },
-      next: { revalidate: 0 },
     })
     if (!res.ok) return { ...SETTINGS_DEFAULTS }
     const data = await res.json()
@@ -62,12 +61,16 @@ export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
   }
 }
 
-export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
-  const now = Date.now()
-  if (_cache[siteId] && now - _cache[siteId].at < EC_TTL) {
-    return _cache[siteId].flags
-  }
+export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
+  const cached = unstable_cache(
+    () => fetchSiteSettings(siteId),
+    ['site-settings', siteId],
+    { revalidate: 600 }
+  )
+  return cached()
+}
 
+async function fetchSiteFlags(siteId: string): Promise<SiteFlags> {
   const connStr = process.env.EDGE_CONFIG
   if (!connStr) return { ...DEFAULTS }
 
@@ -77,7 +80,6 @@ export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
     const url = connStr.replace(/\/+$/, '')
     const res = await fetch(`${url}/items?${params}`, {
       headers: { accept: 'application/json' },
-      next: { revalidate: 0 },
     })
 
     if (!res.ok) return { ...DEFAULTS }
@@ -101,10 +103,18 @@ export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
       }
     }
 
-    _cache[siteId] = { flags, at: now }
     return flags
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') console.warn('[flags] getSiteFlags error:', e)
     return { ...DEFAULTS }
   }
+}
+
+export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
+  const cached = unstable_cache(
+    () => fetchSiteFlags(siteId),
+    ['site-flags', siteId],
+    { revalidate: 600 }
+  )
+  return cached()
 }
