@@ -6,6 +6,9 @@
 import { unstable_cache } from 'next/cache'
 
 export interface SiteFlags {
+  classroom_mode: boolean
+  pdf_export: boolean
+  ai_quiz_gen: boolean
   pricing: boolean
   chatbot: boolean
   freemium: boolean
@@ -14,6 +17,9 @@ export interface SiteFlags {
 }
 
 const DEFAULTS: SiteFlags = {
+  classroom_mode: true,
+  pdf_export: false,
+  ai_quiz_gen: true,
   pricing: false,
   chatbot: true,
   freemium: true,
@@ -22,53 +28,6 @@ const DEFAULTS: SiteFlags = {
 }
 
 const FLAG_KEYS = Object.keys(DEFAULTS) as (keyof SiteFlags)[]
-
-export interface SiteSettings {
-  accentColor?: string
-  accentColor2?: string
-  statsBaseline?: { quizzes: number; questions: number; topics: number }
-  promoCodes?: string
-  chatbotModel?: string
-  rateLimit?: number
-}
-
-const SETTINGS_DEFAULTS: SiteSettings = {
-  accentColor: '#fbbf24',
-  accentColor2: '#ca8a04',
-  statsBaseline: { quizzes: 142, questions: 3847, topics: 89 },
-  chatbotModel: 'llama-3.3-70b-versatile',
-  rateLimit: 60,
-}
-
-async function fetchSiteSettings(siteId: string): Promise<SiteSettings> {
-  const connStr = process.env.EDGE_CONFIG
-  if (!connStr) return { ...SETTINGS_DEFAULTS }
-
-  try {
-    const settingsKey = `settings_${siteId}`
-    const url = connStr.replace(/\/+$/, '')
-    const res = await fetch(`${url}/items?key=${encodeURIComponent(settingsKey)}`, {
-      headers: { accept: 'application/json' },
-    })
-    if (!res.ok) return { ...SETTINGS_DEFAULTS }
-    const data = await res.json()
-    const raw = Array.isArray(data.items) ? data.items[0]?.value : data[settingsKey]
-    if (!raw || typeof raw !== 'object') return { ...SETTINGS_DEFAULTS }
-    return { ...SETTINGS_DEFAULTS, ...raw }
-  } catch (e) {
-    if (process.env.NODE_ENV !== 'production') console.warn('[flags] getSiteSettings error:', e)
-    return { ...SETTINGS_DEFAULTS }
-  }
-}
-
-export async function getSiteSettings(siteId: string): Promise<SiteSettings> {
-  const cached = unstable_cache(
-    () => fetchSiteSettings(siteId),
-    ['site-settings', siteId],
-    { revalidate: 600 }
-  )
-  return cached()
-}
 
 async function fetchSiteFlags(siteId: string): Promise<SiteFlags> {
   const connStr = process.env.EDGE_CONFIG
@@ -104,8 +63,7 @@ async function fetchSiteFlags(siteId: string): Promise<SiteFlags> {
     }
 
     return flags
-  } catch (e) {
-    if (process.env.NODE_ENV !== 'production') console.warn('[flags] getSiteFlags error:', e)
+  } catch {
     return { ...DEFAULTS }
   }
 }
@@ -118,3 +76,4 @@ export async function getSiteFlags(siteId: string): Promise<SiteFlags> {
   )
   return cached()
 }
+
