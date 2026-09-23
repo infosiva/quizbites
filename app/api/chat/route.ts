@@ -87,12 +87,12 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Fallback chain: llama-3.3-70b → llama-3.1-8b-instant
+    // Fallback chain: gpt-oss-20b → qwen3.8-27b
     try {
-      return await tryGroq('llama-3.3-70b-versatile')
+      return await tryGroq('openai/gpt-oss-20b')
     } catch {
       try {
-        return await tryGroq('llama-3.1-8b-instant')
+        return await tryGroq('qwen/qwen3.8-27b')
       } catch {
         return NextResponse.json({ error: 'Chat is resting — try again in a moment.' }, { status: 503 })
       }
