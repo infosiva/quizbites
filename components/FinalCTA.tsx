@@ -5,7 +5,7 @@ import { siteConfig } from '@/site.config'
 import { FADE_UP, BUTTON_PRESS, SPRING_CINEMATIC, useMotionVariants } from '@/lib/motion'
 import { theme } from '@/lib/theme'
 import Link from 'next/link'
-import { ShimmerButton } from '@/components/magicui/shimmer-button'
+import { MagneticButton } from '@infosiva/shared-ui/modern'
 
 export default function FinalCTA() {
   const vars = useMotionVariants(FADE_UP)
@@ -26,13 +26,12 @@ export default function FinalCTA() {
 
         <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
           <Link href={siteConfig.finalCta.ctaHref}>
-            <ShimmerButton
-              background="rgba(37, 99, 235, 1)"
-              shimmerColor="#bfdbfe"
-              className="cta-pulse px-10 py-4 text-base font-bold min-h-[56px]"
+            <MagneticButton
+              style={{ background: 'rgba(37, 99, 235, 1)', color: '#fff' }}
+              className="cta-pulse rounded-full px-10 py-4 text-base font-bold min-h-[56px]"
             >
               {siteConfig.finalCta.ctaText}
-            </ShimmerButton>
+            </MagneticButton>
           </Link>
         </motion.div>
 

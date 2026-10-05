@@ -22,6 +22,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
 import siteConfig from '@/site.config'
 
+import { MotionProvider } from "@infosiva/shared-ui/modern";
 const SITE_URL = `https://${siteConfig.domain}`
 
 export const metadata: Metadata = {
@@ -96,7 +97,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <Providers>
           <main className="flex-1">
-            {children}
+            <MotionProvider>{children}</MotionProvider>
           </main>
         </Providers>
 
