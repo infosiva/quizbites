@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar'
 import FooterExtras from '@/components/FooterExtras'
 import ChatBot from '@/components/ChatBot'
 import { getSiteFlags } from '@/lib/flags'
+import { loadSiteTheme, buildThemeStyleTag, buildGa4Snippet } from '@/lib/theme-loader'
 import Providers from '@/components/Providers'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import BackToTop from '@/components/BackToTop'
@@ -68,7 +69,8 @@ export const metadata: Metadata = {
 const colors = COLOR_MAP[config.themeColor] ?? COLOR_MAP['violet']
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const flags = await getSiteFlags('quizbites')
+  const [flags, theme] = await Promise.all([getSiteFlags('quizbites'), loadSiteTheme('quizbites')])
+  const ga4 = buildGa4Snippet(theme)
   return (
     <html
       lang="en"
@@ -82,6 +84,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       } as React.CSSProperties}
       suppressHydrationWarning
     >
+      <head>
+        <style id="site-theme" dangerouslySetInnerHTML={{ __html: buildThemeStyleTag(theme) }} />
+        {ga4 && <>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${theme?.analytics?.ga4Id}`} strategy="afterInteractive" />
+          <Script id="ga4-init" strategy="afterInteractive">{ga4}</Script>
+        </>}
+      </head>
       <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-slate-900`}
         style={{ background: 'var(--background, #fefce8)', fontFamily: 'var(--font-body, system-ui)' }}
       >
