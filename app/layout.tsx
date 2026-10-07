@@ -24,6 +24,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 import siteConfig from '@/site.config'
 
 import { MotionProvider } from "@infosiva/shared-ui/modern";
+import { AnimatedBg } from '@/components/AnimatedBg'
 const SITE_URL = `https://${siteConfig.domain}`
 
 export const metadata: Metadata = {
@@ -94,6 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${inter.variable} ${outfit.variable} min-h-full flex flex-col text-slate-900`}
         style={{ background: 'var(--background, #fefce8)', fontFamily: 'var(--font-body, system-ui)' }}
       >
+        <AnimatedBg theme={theme} fallback="mesh" />
 
         <SchemaOrg />
         <Script

@@ -191,3 +191,6 @@ pre { overflow-x: auto; max-width: 100%; white-space: pre-wrap; word-break: brea
 @media (max-width: 768px) {
   html, body { overflow-x: hidden !important; }
 }
+
+/* AnimatedBg token (follows hub/theme background) */
+:root{--bg:var(--background,#12122b)}
