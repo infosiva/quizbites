@@ -17,12 +17,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <span className="text-slate-900"><Logo /></span>
-          <span className="text-[10px] font-medium leading-none uppercase tracking-widest hidden sm:block" style={{ color: 'color-mix(in srgb, var(--accent, #fbbf24) 70%, transparent)' }}>AI quiz maker for teachers</span>
+          <span className="text-[10px] font-medium leading-none uppercase tracking-widest hidden min-[1400px]:block" style={{ color: 'color-mix(in srgb, var(--accent, #fbbf24) 70%, transparent)' }}>AI quiz maker for teachers</span>
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6 text-sm text-slate-500">
-          {navLinks.filter(l => l.label !== 'Home').map(link => (
+          {navLinks.filter(l => l.label !== 'Home' && l.label !== 'Dashboard').map(link => (
             <Link key={link.href} href={link.href} className="hover:text-yellow-700 transition-colors">
               {link.label}
             </Link>
@@ -57,7 +57,7 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {open && (
         <div className="md:hidden border-t px-6 py-4 flex flex-col gap-3 text-sm" style={{ borderColor: 'var(--border, #fde68a)', background: 'rgba(254,252,232,0.97)' }}>
-          {navLinks.map(link => (
+          {navLinks.filter(l => l.label !== 'Dashboard').map(link => (
             <Link key={link.href} href={link.href}
               className="text-slate-600 hover:text-yellow-700 transition-colors py-1"
               onClick={() => setOpen(false)}>
